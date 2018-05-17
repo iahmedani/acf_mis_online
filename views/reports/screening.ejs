@@ -1,0 +1,444 @@
+<% layout('boilerplate') %>
+  <style>
+    #customers {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #customers td,
+    #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+      background-color: #ddd;
+    }
+
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <main>
+    <div class="filter row">
+      <div class="input-field col s12 m2">
+        <select name="province" id="ddProvince">
+          <option value="all">All</option>
+        </select>
+        <label for="province">Province</label>
+      </div>
+      <div class="input-field col s12 m2">
+        <select name="district" id="ddDistrict">
+          <option value="all">All</option>
+        </select>
+        <label for="district">District</label>
+      </div>
+      <div class="input-field col s12 m2">
+        <select name="tehsil" id="ddTehsil">
+          <option value="all">All</option>
+        </select>
+        <label for="tehsil">Tehsil</label>
+      </div>
+      <div class="input-field col s12 m2">
+        <select name="uc" id="ddUC">
+          <option value="all">All</option>
+        </select>
+        <label for="uc">UC</label>
+      </div>
+      <div class="input-field col s12 m2">
+        <select name="site" id="ddSite">
+          <option value="all">All</option>
+        </select>
+        <label for="site">Site</label>
+      </div>
+      <div class="input-field col s12 m2">
+        <input type="text" name="siteType" id="txtSiteType" placeholder="Site Type">
+        <!-- <label for="siteType">Site Type</label> -->
+      </div>
+      <!-- <div class="input-field col s12 m2">
+          <select name="interval" id="ddInterval"></select>
+<label for="interval">Interval</label>
+      </div>
+      <div class="input-field col s12 m2">
+          <select name="year" id="ddYear"></select>
+<label for="year">Year</label>
+      </div>
+      <div class="input-field col s12 m2">
+          <select name="quarter" id="ddQuarter"></select>
+<label for="quarter">Quarter</label>
+      </div>
+      <div class="input-field col s12 m2">
+          <select name="month" id="ddMonth"></select>
+<label for="month">Month</label>
+      </div> -->
+    </div>
+    <div class="row">
+      <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto" class="card"></div>
+    </div>
+    <div class="row card">
+      <table id="customers">
+        <tr>
+          <th colspan="2">Children</th>
+          <td>Screening</td>
+          <td>MUAC
+            <11.5 cm</td>
+              <td>MUAC 11.5 - 12.4 cm</td>
+              <th>PLW</th>
+              <td>Screening</td>
+              <td>MUAC
+                <21 cm</td>
+        </tr>
+        <tr rowspan="2">
+          <th rowspan="2">Active</th>
+          <th>Male</th>
+          <td id="tChildScrActive_M"></td>
+          <td id="ChildScrActive_M115"></td>
+          <td id="ChildScrActive_M115124"></td>
+          <th>Pregnant</th>
+          <td id="tPlwScrActive_P"></td>
+          <td id="PlwScrActive_P21"></td>
+        </tr>
+        <tr>
+          <th>Female</th>
+          <td id="tChildScrActive_F"></td>
+          <td id="ChildScrActive_F115"></td>
+          <td id="ChildScrActive_F115124"></td>
+          <th>Lactating</th>
+          <td id="tPlwScrActive_L"></td>
+          <td id="PlwScrActive_L21"></td>
+        </tr>
+        <tr rowspan="2">
+          <th rowspan="2">Passive</th>
+          <th>Male</th>
+          <td id="tChildScrPassive_M"></td>
+          <td id="ChildScrPassive_M115"></td>
+          <td id="ChildScrPassive_M115124"></td>
+          <th>Pregnant</th>
+          <td id="tPlwScrPassive_P"></td>
+          <td id="PlwScrPassive_P21"></td>
+        </tr>
+        <tr>
+          <th>Female</th>
+          <td id="tChildScrPassive_F"></td>
+          <td id="ChildScrPassive_F115"></td>
+          <td id="ChildScrPassive_F115124"></td>
+          <th>Lactating</th>
+          <td id="tPlwScrPassive_L"></td>
+          <td id="PlwScrPassive_L21"></td>
+        </tr>
+        <!-- <tr>
+  <th colspan="2">Total Children</th>
+  <td></td>
+  <td></td>
+  <td></td>
+  <th>Total PLW</th>
+  <td></td>
+  <td></td>
+</tr> -->
+      </table>
+      <div class="row">
+        <table id="sumDist" class="display" width="100%"></table>
+      </div>
+    </div>
+  </main>
+  <script>
+    function thisChart(data) {
+      Highcharts.chart('container', {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Screening Report'
+        },
+        xAxis: {
+          categories: ['Child: Male', 'Child: Female', 'Pragnant', 'Lactacting']
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Total Screening by Category'
+          },
+          stackLabels: {
+            enabled: true,
+            style: {
+              fontWeight: 'bold',
+              color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            }
+          }
+        },
+        legend: {
+          align: 'right',
+          x: -30,
+          verticalAlign: 'top',
+          y: 25,
+          floating: true,
+          backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+          borderColor: '#CCC',
+          borderWidth: 1,
+          shadow: false
+        },
+        tooltip: {
+          headerFormat: '<b>{point.x}</b><br/>',
+          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        },
+        plotOptions: {
+          column: {
+            stacking: 'normal',
+            dataLabels: {
+              enabled: true,
+              color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            }
+          }
+        },
+        series: data
+      });
+    }
+
+    function pushData(url) {
+      console.log(url);
+      $.ajax({
+        url,
+        success: (data) => {
+          $('#tChildScrActive_M').empty()
+          $('#tChildScrActive_M').append(data[0].tChildScrActive_M);
+          $('#tChildScrActive_F').empty()
+          $('#tChildScrActive_F').append(data[0].tChildScrActive_F);
+          $('#tPlwScrActive_P').empty()
+          $('#tPlwScrActive_P').append(data[0].tPlwScrActive_P);
+          $('#tPlwScrActive_L').empty()
+          $('#tPlwScrActive_L').append(data[0].tPlwScrActive_L);
+          $('#tChildScrPassive_M').empty()
+          $('#tChildScrPassive_M').append(data[0].tChildScrPassive_M);
+          $('#tChildScrPassive_F').empty()
+          $('#tChildScrPassive_F').append(data[0].tChildScrPassive_F);
+          $('#tPlwScrPassive_P').empty()
+          $('#tPlwScrPassive_P').append(data[0].tPlwScrPassive_P);
+          $('#tPlwScrPassive_L').empty()
+          $('#tPlwScrPassive_L').append(data[0].tPlwScrPassive_L);
+          $('#ChildScrActive_M115').empty()
+          $('#ChildScrActive_M115').append(data[0].ChildScrActive_M115);
+          $('#ChildScrActive_F115').empty()
+          $('#ChildScrActive_F115').append(data[0].ChildScrActive_F115);
+          $('#ChildScrActive_M115124').empty()
+          $('#ChildScrActive_M115124').append(data[0].ChildScrActive_M115124);
+          $('#ChildScrActive_F115124').empty()
+          $('#ChildScrActive_F115124').append(data[0].ChildScrActive_F115124);
+          $('#PlwScrActive_P21').empty()
+          $('#PlwScrActive_P21').append(data[0].PlwScrActive_P21);
+          $('#PlwScrActive_L21').empty()
+          $('#PlwScrActive_L21').append(data[0].PlwScrActive_L21);
+          $('#ChildScrPassive_M115').empty()
+          $('#ChildScrPassive_M115').append(data[0].ChildScrPassive_M115);
+          $('#ChildScrPassive_F115').empty()
+          $('#ChildScrPassive_F115').append(data[0].ChildScrPassive_F115);
+          $('#ChildScrPassive_M115124').empty()
+          $('#ChildScrPassive_M115124').append(data[0].ChildScrPassive_M115124);
+          $('#ChildScrPassive_F115124').empty()
+          $('#ChildScrPassive_F115124').append(data[0].tChildScrPassive_F115124);
+          $('#PlwScrPassive_P21').empty()
+          $('#PlwScrPassive_P21').append(data[0].PlwScrPassive_P21);
+          $('#PlwScrPassive_L21').empty()
+          $('#PlwScrPassive_L21').append(data[0].PlwScrPassive_L21);
+
+
+
+
+
+        }
+      })
+    }
+
+    function makeChart(url) {
+      $.ajax({
+        url,
+        success: (data) => {
+          var series = [{
+              name: 'MUAC<11.5',
+              data: [(data[0].ChildScrActive_M115 + data[0].ChildScrPassive_M115), (data[0].ChildScrActive_F115 +
+                data[0].ChildScrPassive_F115), 0, 0]
+            }, {
+              name: 'MUAC 11.5 - 12.4 ',
+              data: [(data[0].ChildScrActive_M115124 + data[0].ChildScrPassive_M115124), (data[0].ChildScrActive_F115124 +
+                data[0].ChildScrPassive_F115124), 0, 0]
+            },
+            {
+              name: 'MUAC<21',
+              data: [0, 0, (data[0].PlwScrActive_P21 + data[0].PlwScrPassive_P21), (data[0].PlwScrActive_L21 +
+                data[0].PlwScrPassive_L21)]
+            },
+            {
+              name: 'TOTAL',
+              data: [(data[0].tChildScrActive_M + data[0].tChildScrPassive_M), (data[0].tChildScrActive_F +
+                data[0].tChildScrPassive_F), (data[0].tPlwScrActive_P + data[0].tPlwScrPassive_P), (data[0]
+                .tPlwScrActive_L + data[0].tPlwScrPassive_L)]
+            }
+          ];
+          thisChart(series);
+        }
+      })
+    }
+    $(() => {
+      pushData('/report/scr')
+      makeChart('/report/scr')
+      var options = {
+        url: '/Province',
+        method: 'POST',
+        success: (data => {
+          var html = '';
+          if (data.length > 0) {
+            data.forEach(el => {
+              html += `<option value="${el.id}">${el.provinceName}</option>`;
+            })
+            $('#ddProvince').append(html);
+            $('#ddProvince').formSelect();
+          }
+          // console.log(html);
+        })
+      }
+      // $('#ddProvince option:not(:first)').remove();    
+      $.ajax(options);
+
+    })
+    $('#ddProvince').on('change', function () {
+      var pid = $(this).val();
+      var options = {
+        url: '/District/' + pid,
+        method: 'POST',
+        success: (data => {
+          var html = '';
+          if (data.length > 0) {
+            data.forEach(el => {
+              html += `<option value="${el.id}">${el.districtName}</option>`;
+            })
+
+            $('#ddDistrict option:not(:first)').empty();
+            $('#ddDistrict').append(html);
+            $('#ddDistrict').formSelect();
+          }
+          // console.log(html);
+        })
+      }
+      // $('#ddProvince option:not(:first)').remove();    
+      $.ajax(options);
+      pushData('/report/scrProv/' + pid);
+      makeChart('/report/scrProv/' + pid)
+
+    })
+    $('#ddDistrict').on('change', function () {
+      var pid = $(this).val();
+      var options = {
+        url: '/Tehsil/' + pid,
+        method: 'POST',
+        success: (data => {
+          var html = '';
+          if (data.length > 0) {
+            data.forEach(el => {
+              html += `<option value="${el.id}">${el.tehsilName}</option>`;
+            })
+            $('#ddTehsil option:not(:first)').empty();
+            $('#ddTehsil').append(html);
+            $('#ddTehsil').formSelect();
+          }
+          // console.log(html);
+        })
+      }
+      // $('#ddProvince option:not(:first)').remove();    
+      $.ajax(options);
+      pushData('/report/scrDist/' + pid);
+      makeChart('/report/scrDist/' + pid)
+
+
+    })
+    $('#ddTehsil').on('change', function () {
+      var pid = $(this).val();
+      var options = {
+        url: '/UC/' + pid,
+        method: 'POST',
+        success: (data => {
+          var html = '';
+          if (data.length > 0) {
+            data.forEach(el => {
+              html += `<option value="${el.id}">${el.ucName}</option>`;
+            })
+            $('#ddUC option:not(:first)').empty();
+            $('#ddUC').append(html);
+            $('#ddUC').formSelect();
+          }
+          // console.log(html);
+        })
+      }
+      // $('#ddProvince option:not(:first)').remove();    
+      $.ajax(options);
+      pushData('/report/scrTeh/' + pid);
+      makeChart('/report/scrTeh/' + pid)
+
+
+    })
+    $('#ddUC').on('change', function () {
+      var pid = $(this).val();
+      var options = {
+        url: '/Site/' + pid,
+        method: 'POST',
+        success: (data => {
+          var html = '';
+          if (data.length > 0) {
+            data.forEach(el => {
+              html += `<option value="${el.id}">${el.siteName}</option>`;
+            })
+            $('#ddSite option:not(:first)').empty();
+            $('#ddSite').append(html);
+            $('#ddSite').formSelect();
+          }
+          // console.log(html);
+        })
+      }
+      // $('#ddProvince option:not(:first)').remove();    
+      $.ajax(options);
+      pushData('/report/scrUC/' + pid);
+      makeChart('/report/scrUC/' + pid)
+
+
+    })
+    $('#ddSite').on('change', function () {
+      var pid = $(this).val();
+      pushData('/report/scrSite/' + pid);
+      var options = {
+        url: '/Site/' + pid,
+        method: 'POST',
+        success: (data => {
+          $('#txtSiteType').val('');
+          $('#txtSiteType').val(function () {
+            var x = [];
+            if (data[0].OTP) {
+              x.push('OTP')
+            }
+            if (data[0].SFP) {
+              x.push('SFP')
+            }
+            if (data[0].SC) {
+              x.push('SC')
+            }
+            console.log(x)
+            return x;
+          });
+
+          // console.log(html);
+        })
+      }
+      // $('#ddProvince option:not(:first)').remove();    
+      $.ajax(options);
+      makeChart('/report/scrSite/' + pid)
+    })
+  </script>

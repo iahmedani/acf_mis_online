@@ -4,7 +4,7 @@
     <div class="container">
     <% } %>    
       <div class="nav-wrapper">
-        <a href="/" class="brand-logo"><img class="acf-logo" src="#!"></a>
+        <a href="/" class="brand-logo"><img class="acf-logo" src="/img/acf-logo.svg"></a>
         <a href="#" data-target="mobile-nav" class="sidenav-trigger right grey-text text-darken-3">
           <i class="material-icons">menu</i>
         </a>
@@ -18,7 +18,10 @@
             <a href="/" class="grey-text text-darken-3 ">Home</a>
           </li>
           <li>
-            <a href="/dashboard" class="grey-text text-darken-3 ">Dashboard</a>
+            <% if (!url === '/public/reports'){%>
+              <a href="/public/reports" class="grey-text text-darken-3 ">Dashboard</a>
+            
+            <%}%>
           </li>
           <li>
             <a href="/contact" class="grey-text text-darken-3 ">Contact</a>

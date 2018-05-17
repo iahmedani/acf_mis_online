@@ -1,0 +1,47 @@
+<% layout('boilerplate') %>
+<main role="main">
+<div class="container">
+  <div class="row">
+    <div class="card col s12 m12 l12">
+      <div class="row">
+      <div class="col s12 m3 l3">
+        <label for="ddProvince">Province</label>
+      <select name="ddProvince" id="ddProvince" class="browser-default"  multiple>
+        <option value="" disabled selected></option>
+        <option value="all">Select All</option>
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+        <option value=""></option>
+      </select>
+      </div>
+      <div class="col s12 m3 l3">
+      <label for="ddDitrict">District</label>
+    <select name="ddDitrict" id="ddDitrict" class="browser-default"></select>
+  </div>
+  <div class="col s12 m3 l3">
+  
+      <label for="ddTehsil">Tehsil</label>
+    <select name="ddTehsil" id="ddTehsil" class="browser-default"></select>
+  </div>
+  <div class="col s12 m3 l3">
+    
+      <label for="ddUC">UC</label>
+    <select name="ddUC" id="ddUC" class="browser-default"></select>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+</main>
+<script src="/js/jquery-multi-select.js"></script>
+<script>
+   $(document).ready(function () {
+
+$('#ddProvince').multiselect({
+    includeSelectAllOption: true,
+    enableFiltering: true
+})
+$('#ddProvince').multiselect("rebuild");
+})
+</script>

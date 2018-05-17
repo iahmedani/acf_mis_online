@@ -1,13 +1,22 @@
+require('dotenv').config();
 const settings = require('./config/settings');
 const dbConfig = (process.env.NODE_ENV === 'production' ? settings.cloudConfig : settings.lConfig);
 const sql=require("mssql");
 const config = {
-    user: 'sa',
-    password: 'smartest1',
-    server: 'localhost', // You can use 'localhost\\instance' to connect to named instance
-    database: 'demo',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    server: process.env.DB_HOST, // You can use 'localhost\\instance' to connect to named instance
+    database: process.env.DB_DATABASE,
  }
-
+ var knex = require('knex')({
+  client: 'mssql',
+  connection: {
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password :  process.env.DB_PASS,
+    database : process.env.DB_DATABASE
+  }
+});
 const
   express = require('express'),
   mongoose = require('mongoose'),
@@ -69,6 +78,8 @@ app.use(expressValidator({
 
   require('./routes/main')(app);
   require('./routes/admin')(app);
+  require('./routes/reporting')(app, knex);
+  require('./routes/api')(app, knex);
 
   app.listen(settings.port, (err)=>{
     if(err) throw new Error(err);

@@ -1,9 +1,188 @@
-var knex = require('knex')({
-    client: 'mysql',
-    connection: {
-      host : '127.0.0.1',
-      user : 'your_database_user',
-      password : 'your_database_password',
-      database : 'myapp_test'
-    }
-  });
+
+module.exports = function(app, knex){
+  app.get('/public/reports', (req, resp)=>{
+    resp.render('reports/screening')
+  })
+  app.get('/report/scr', (req, resp)=>{
+    knex('scr_report_final')
+      .sum({tChildScrActive_M:'tChildScrActive_M'})
+      .sum({tChildScrActive_F:'tChildScrActive_F'})
+      .sum({tPlwScrActive_P:'tPlwScrActive_P'})
+      .sum({tPlwScrActive_L:'tPlwScrActive_L'})
+      .sum({tChildScrPassive_M:'tChildScrPassive_M'})
+      .sum({tChildScrPassive_F:'tChildScrPassive_F'})
+      .sum({tPlwScrPassive_P:'tPlwScrPassive_P'})
+      .sum({tPlwScrPassive_L:'tPlwScrPassive_L'})
+      .sum({ChildScrActive_M115:'ChildScrActive_M115'})
+      .sum({ChildScrActive_F115:'ChildScrActive_F115'})
+      .sum({ChildScrActive_M115124:'ChildScrActive_M115124'})
+      .sum({ChildScrActive_F115124:'ChildScrActive_F115124'})
+      .sum({PlwScrActive_P21:'PlwScrActive_P21'})
+      .sum({PlwScrActive_L21:'PlwScrActive_L21'})
+      .sum({ChildScrPassive_M115:'ChildScrPassive_M115'})
+      .sum({ChildScrPassive_F115:'ChildScrPassive_F115'})
+      .sum({ChildScrPassive_M115124:'ChildScrPassive_M115124'})
+      .sum({tChildScrPassive_F115124:'tChildScrPassive_F115124'})
+      .sum({PlwScrPassive_P21:'PlwScrPassive_P21'})
+      .sum({PlwScrPassive_L21:'PlwScrPassive_L21'})
+      .then(result=>{
+        resp.json(result);
+      })
+      .catch(err=>{
+        resp.json(err);
+      })
+  })
+  app.get('/report/scrProv/:pid', (req, resp)=>{
+    knex('scr_report_final')
+      .sum({tChildScrActive_M:'tChildScrActive_M'})
+      .sum({tChildScrActive_F:'tChildScrActive_F'})
+      .sum({tPlwScrActive_P:'tPlwScrActive_P'})
+      .sum({tPlwScrActive_L:'tPlwScrActive_L'})
+      .sum({tChildScrPassive_M:'tChildScrPassive_M'})
+      .sum({tChildScrPassive_F:'tChildScrPassive_F'})
+      .sum({tPlwScrPassive_P:'tPlwScrPassive_P'})
+      .sum({tPlwScrPassive_L:'tPlwScrPassive_L'})
+      .sum({ChildScrActive_M115:'ChildScrActive_M115'})
+      .sum({ChildScrActive_F115:'ChildScrActive_F115'})
+      .sum({ChildScrActive_M115124:'ChildScrActive_M115124'})
+      .sum({ChildScrActive_F115124:'ChildScrActive_F115124'})
+      .sum({PlwScrActive_P21:'PlwScrActive_P21'})
+      .sum({PlwScrActive_L21:'PlwScrActive_L21'})
+      .sum({ChildScrPassive_M115:'ChildScrPassive_M115'})
+      .sum({ChildScrPassive_F115:'ChildScrPassive_F115'})
+      .sum({ChildScrPassive_M115124:'ChildScrPassive_M115124'})
+      .sum({tChildScrPassive_F115124:'tChildScrPassive_F115124'})
+      .sum({PlwScrPassive_P21:'PlwScrPassive_P21'})
+      .sum({PlwScrPassive_L21:'PlwScrPassive_L21'})
+      .where({province_id:req.params.pid})
+      .then(result=>{
+        resp.json(result);
+      })
+      .catch(err=>{
+        resp.json(err);
+      })
+  })
+  app.get('/report/scrDist/:pid', (req, resp)=>{
+    knex('scr_report_final')
+      .sum({tChildScrActive_M:'tChildScrActive_M'})
+      .sum({tChildScrActive_F:'tChildScrActive_F'})
+      .sum({tPlwScrActive_P:'tPlwScrActive_P'})
+      .sum({tPlwScrActive_L:'tPlwScrActive_L'})
+      .sum({tChildScrPassive_M:'tChildScrPassive_M'})
+      .sum({tChildScrPassive_F:'tChildScrPassive_F'})
+      .sum({tPlwScrPassive_P:'tPlwScrPassive_P'})
+      .sum({tPlwScrPassive_L:'tPlwScrPassive_L'})
+      .sum({ChildScrActive_M115:'ChildScrActive_M115'})
+      .sum({ChildScrActive_F115:'ChildScrActive_F115'})
+      .sum({ChildScrActive_M115124:'ChildScrActive_M115124'})
+      .sum({ChildScrActive_F115124:'ChildScrActive_F115124'})
+      .sum({PlwScrActive_P21:'PlwScrActive_P21'})
+      .sum({PlwScrActive_L21:'PlwScrActive_L21'})
+      .sum({ChildScrPassive_M115:'ChildScrPassive_M115'})
+      .sum({ChildScrPassive_F115:'ChildScrPassive_F115'})
+      .sum({ChildScrPassive_M115124:'ChildScrPassive_M115124'})
+      .sum({tChildScrPassive_F115124:'tChildScrPassive_F115124'})
+      .sum({PlwScrPassive_P21:'PlwScrPassive_P21'})
+      .sum({PlwScrPassive_L21:'PlwScrPassive_L21'})
+      .where({district_id:req.params.pid})
+      .then(result=>{
+        resp.json(result);
+      })
+      .catch(err=>{
+        resp.json(err);
+      })
+  })
+  app.get('/report/scrTeh/:pid', (req, resp)=>{
+    knex('scr_report_final')
+      .sum({tChildScrActive_M:'tChildScrActive_M'})
+      .sum({tChildScrActive_F:'tChildScrActive_F'})
+      .sum({tPlwScrActive_P:'tPlwScrActive_P'})
+      .sum({tPlwScrActive_L:'tPlwScrActive_L'})
+      .sum({tChildScrPassive_M:'tChildScrPassive_M'})
+      .sum({tChildScrPassive_F:'tChildScrPassive_F'})
+      .sum({tPlwScrPassive_P:'tPlwScrPassive_P'})
+      .sum({tPlwScrPassive_L:'tPlwScrPassive_L'})
+      .sum({ChildScrActive_M115:'ChildScrActive_M115'})
+      .sum({ChildScrActive_F115:'ChildScrActive_F115'})
+      .sum({ChildScrActive_M115124:'ChildScrActive_M115124'})
+      .sum({ChildScrActive_F115124:'ChildScrActive_F115124'})
+      .sum({PlwScrActive_P21:'PlwScrActive_P21'})
+      .sum({PlwScrActive_L21:'PlwScrActive_L21'})
+      .sum({ChildScrPassive_M115:'ChildScrPassive_M115'})
+      .sum({ChildScrPassive_F115:'ChildScrPassive_F115'})
+      .sum({ChildScrPassive_M115124:'ChildScrPassive_M115124'})
+      .sum({tChildScrPassive_F115124:'tChildScrPassive_F115124'})
+      .sum({PlwScrPassive_P21:'PlwScrPassive_P21'})
+      .sum({PlwScrPassive_L21:'PlwScrPassive_L21'})
+      .where({tehsil_id:req.params.pid})
+      .then(result=>{
+        resp.json(result);
+      })
+      .catch(err=>{
+        resp.json(err);
+      })
+  })
+  app.get('/report/scrUC/:pid', (req, resp)=>{
+    knex('scr_report_final')
+      .sum({tChildScrActive_M:'tChildScrActive_M'})
+      .sum({tChildScrActive_F:'tChildScrActive_F'})
+      .sum({tPlwScrActive_P:'tPlwScrActive_P'})
+      .sum({tPlwScrActive_L:'tPlwScrActive_L'})
+      .sum({tChildScrPassive_M:'tChildScrPassive_M'})
+      .sum({tChildScrPassive_F:'tChildScrPassive_F'})
+      .sum({tPlwScrPassive_P:'tPlwScrPassive_P'})
+      .sum({tPlwScrPassive_L:'tPlwScrPassive_L'})
+      .sum({ChildScrActive_M115:'ChildScrActive_M115'})
+      .sum({ChildScrActive_F115:'ChildScrActive_F115'})
+      .sum({ChildScrActive_M115124:'ChildScrActive_M115124'})
+      .sum({ChildScrActive_F115124:'ChildScrActive_F115124'})
+      .sum({PlwScrActive_P21:'PlwScrActive_P21'})
+      .sum({PlwScrActive_L21:'PlwScrActive_L21'})
+      .sum({ChildScrPassive_M115:'ChildScrPassive_M115'})
+      .sum({ChildScrPassive_F115:'ChildScrPassive_F115'})
+      .sum({ChildScrPassive_M115124:'ChildScrPassive_M115124'})
+      .sum({tChildScrPassive_F115124:'tChildScrPassive_F115124'})
+      .sum({PlwScrPassive_P21:'PlwScrPassive_P21'})
+      .sum({PlwScrPassive_L21:'PlwScrPassive_L21'})
+      .where({uc_id:req.params.pid})
+      .then(result=>{
+        resp.json(result);
+      })
+      .catch(err=>{
+        resp.json(err);
+      })
+  })
+  app.get('/report/scrSite/:pid', (req, resp)=>{
+    knex('scr_report_final')
+      .sum({tChildScrActive_M:'tChildScrActive_M'})
+      .sum({tChildScrActive_F:'tChildScrActive_F'})
+      .sum({tPlwScrActive_P:'tPlwScrActive_P'})
+      .sum({tPlwScrActive_L:'tPlwScrActive_L'})
+      .sum({tChildScrPassive_M:'tChildScrPassive_M'})
+      .sum({tChildScrPassive_F:'tChildScrPassive_F'})
+      .sum({tPlwScrPassive_P:'tPlwScrPassive_P'})
+      .sum({tPlwScrPassive_L:'tPlwScrPassive_L'})
+      .sum({ChildScrActive_M115:'ChildScrActive_M115'})
+      .sum({ChildScrActive_F115:'ChildScrActive_F115'})
+      .sum({ChildScrActive_M115124:'ChildScrActive_M115124'})
+      .sum({ChildScrActive_F115124:'ChildScrActive_F115124'})
+      .sum({PlwScrActive_P21:'PlwScrActive_P21'})
+      .sum({PlwScrActive_L21:'PlwScrActive_L21'})
+      .sum({ChildScrPassive_M115:'ChildScrPassive_M115'})
+      .sum({ChildScrPassive_F115:'ChildScrPassive_F115'})
+      .sum({ChildScrPassive_M115124:'ChildScrPassive_M115124'})
+      .sum({tChildScrPassive_F115124:'tChildScrPassive_F115124'})
+      .sum({PlwScrPassive_P21:'PlwScrPassive_P21'})
+      .sum({PlwScrPassive_L21:'PlwScrPassive_L21'})
+      .where({site_id:req.params.pid})
+      .then(result=>{
+        resp.json(result);
+      })
+      .catch(err=>{
+        resp.json(err);
+      })
+  })
+  app.get('/report/scrDetail', (req, resp)=>{
+    resp.render('reports/scrDetail');
+  })
+}
