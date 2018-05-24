@@ -1,4 +1,5 @@
 require('dotenv').config();
+var cors = require('cors');
 const settings = require('./config/settings');
 const dbConfig = (process.env.NODE_ENV === 'production' ? settings.cloudConfig : settings.lConfig);
 const sql=require("mssql");
@@ -48,6 +49,7 @@ app.use(session({
   // store: new MongoStore({url: localConfig.dbURL, autoReconnect: true, autoRemove: 'native'})
 }));
 app.use(flash());
+app.use(cors());
 
 app.use((req, res, next)=>{
   app.locals.user = req.user;
@@ -81,7 +83,7 @@ app.use(expressValidator({
   require('./routes/reporting')(app, knex);
   require('./routes/api')(app, knex);
 
-  app.listen(settings.port, (err)=>{
+  app.listen(process.env.PORT, (err)=>{
     if(err) throw new Error(err);
-    console.log('server started on port :'+settings.port);
+    console.log('server started on port :'+process.env.PORT);
   });
