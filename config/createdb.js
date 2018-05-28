@@ -2,10 +2,11 @@ require('dotenv').config();
 var knex = require('knex')({
   client: 'mssql',
   connection: {
-    host : process.env.DB_HOST,
-    user : process.env.DB_USER,
-    password : process.env.DB_PASS,
-    database : process.env.DB_DATABASE
+    host : process.env.RDS_HOSTNAME,
+    user : process.env.RDS_USERNAME,
+    password : process.env.RDS_PASSWORD,
+    database : process.env.DB_DATABASE,
+    port:process.env.RDS_PASSWORD
   }
 });
 
