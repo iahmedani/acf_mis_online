@@ -163,7 +163,7 @@
           text: 'Screening Report'
         },
         xAxis: {
-          categories: ['Child: Male', 'Child: Female', 'Pragnant', 'Lactacting']
+          categories: ['Child: Male', 'Child: Female', 'Pragnant', 'Lactacting', 'Total']
         },
         yAxis: {
           min: 0,
@@ -202,7 +202,19 @@
             }
           }
         },
-        series: data
+        series: data,
+        "colors": [
+    "#f44336",
+    "#ff7043",
+    "#ff9100",
+    "#f7a35c",
+    "#8085e9",
+    "#f15c80",
+    "#e4d354",
+    "#2b908f",
+    "#f45b5b",
+    "#91e8e1"
+  ]
       });
     }
 
@@ -266,23 +278,16 @@
         success: (data) => {
           var series = [{
               name: 'MUAC<11.5',
-              data: [(data[0].ChildScrActive_M115 + data[0].ChildScrPassive_M115), (data[0].ChildScrActive_F115 +
-                data[0].ChildScrPassive_F115), 0, 0]
+              data: [(data[0].ChildScrActive_M115 +data[0].ChildScrPassive_M115 ),(data[0].ChildScrActive_F115 + data[0].ChildScrPassive_F115 ), 0, 0, ((data[0].ChildScrActive_M115 +data[0].ChildScrPassive_M115 )+ (data[0].ChildScrActive_F115 + data[0].ChildScrPassive_F115 ))]
             }, {
               name: 'MUAC 11.5 - 12.4 ',
-              data: [(data[0].ChildScrActive_M115124 + data[0].ChildScrPassive_M115124), (data[0].ChildScrActive_F115124 +
-                data[0].ChildScrPassive_F115124), 0, 0]
+              data: [(data[0].ChildScrActive_M115124 + data[0].ChildScrPassive_M115124), (data[0].ChildScrActive_F115124 +data[0].tChildScrPassive_F115124), 0, 0, ((data[0].ChildScrActive_M115124 + data[0].ChildScrPassive_M115124)+ (data[0].ChildScrActive_F115124 +data[0].tChildScrPassive_F115124))]
             },
             {
               name: 'MUAC<21',
               data: [0, 0, (data[0].PlwScrActive_P21 + data[0].PlwScrPassive_P21), (data[0].PlwScrActive_L21 +
-                data[0].PlwScrPassive_L21)]
-            },
-            {
-              name: 'TOTAL',
-              data: [(data[0].tChildScrActive_M + data[0].tChildScrPassive_M), (data[0].tChildScrActive_F +
-                data[0].tChildScrPassive_F), (data[0].tPlwScrActive_P + data[0].tPlwScrPassive_P), (data[0]
-                .tPlwScrActive_L + data[0].tPlwScrPassive_L)]
+                data[0].PlwScrPassive_L21), ((data[0].PlwScrActive_P21 + data[0].PlwScrPassive_P21)+ (data[0].PlwScrActive_L21 +
+                data[0].PlwScrPassive_L21))]
             }
           ];
           thisChart(series);
