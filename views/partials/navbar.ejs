@@ -18,10 +18,13 @@
             <a href="/" class="grey-text text-darken-3 ">Home</a>
           </li>
           <li>
-            <% if (!url === '/public/reports'){%>
-              <a href="/public/reports" class="grey-text text-darken-3 ">Dashboard</a>
+            <% if (url === '/public/reports'){%>
+              <a href="/public/reports" class="grey-text text-darken-3 " hidden>Dashboard</a>
             
-            <%}%>
+            <%} else {%>
+              <a href="/public/reports" class="grey-text text-darken-3 " >Dashboard</a>
+              
+              <%}%>
           </li>
           <li>
             <a href="/contact" class="grey-text text-darken-3 ">Contact</a>
