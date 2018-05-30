@@ -247,9 +247,9 @@ app.post('/update_screening', (req, resp) => {
     plw.is_plw = data.is_plw;
     plw.plw_type = data.plw_type;
     plw.no_mm_tabs = data.no_mm_tabs;
-    plw.client_scr_id = data.screening_id;
-    plw.client_id = data.client_id;
-    plw.updated_at = Date.now();
+    // plw.client_scr_id = data.screening_id;
+    // plw.client_id = data.client_id;
+    // plw.created_at = Date.now();
   } else {
     child.screening_type = data.screening_type;
     child.screening_date = data.screening_date;
@@ -268,17 +268,16 @@ app.post('/update_screening', (req, resp) => {
     child.oedema = data.oedema;
     child.deworming = data.deworming;
     child.no_mm_sch = data.no_mm_sch;
-    child.client_scr_id = data.screening_id;
-    child.client_id = data.client_id;
-    child.updated_at = Date.now();
+    
 
   }
   if (isEmpty(plw)) {
     console.log('child' + child);
     knex('Screening')
       .where({
-        client_scr_id: child.screening_id,
-        client_id: child.client_id
+        client_scr_id: data.screening_id,
+        client_id: data.client_id,
+        
       })
       .update(child)
       .then(result => {
@@ -291,19 +290,20 @@ app.post('/update_screening', (req, resp) => {
       })
       .catch((err) => {
         console.log({
-          'msg': 'Error occured during adding child screening'
+          err
         });
         resp.json({
-          'msg': 'Error occured during adding child screening'
+          'msg': 'Error occured during updating child screening'
         });
       })
   } else {
     console.log('plw' + plw);
     knex('Screening')
-      .where({
-        client_scr_id: plw.screening_id,
-        client_id: plw.client_id
-      })
+    .where({
+      client_scr_id: data.screening_id,
+      client_id: data.client_id,
+      
+    })
       .update(plw)
       .then(result => {
         console.log({
@@ -314,15 +314,12 @@ app.post('/update_screening', (req, resp) => {
         });
       })
       .catch((err) => {
-        console.log({
-          'msg': 'Error occured during adding PLW screening'
-        });
+        console.log(err);
         resp.json({
-          'msg': 'Error occured during adding PLW screening'
+          'msg': 'Error occured during updating PLW screening'
         });
       })
   }
 })
-
-  
+ 
 }
