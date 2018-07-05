@@ -82,6 +82,7 @@ app.use(expressValidator({
   require('./routes/admin')(app);
   require('./routes/reporting')(app, knex);
   require('./routes/api')(app, knex);
+  require('./routes/apiv2')(app, knex);
 
   app.listen(process.env.PORT, (err)=>{
     if(err) throw new Error(err);
