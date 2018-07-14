@@ -1,0 +1,213 @@
+<% layout('boilerplate') %>
+  <style>
+    .row {
+      margin-bottom: 0 !important
+    }
+    .btn {
+      width: 100%;
+    }
+
+  </style>
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <div class="container ">
+    <div class="row">
+      <form action="/myadmin/addOrg" method="post" class="col s12">
+        <div class="row">
+          <div class="col s12">
+
+            <ul class="collection">
+              <li class="collection-item light-blue darken-4 white-text">Add Organization</li>
+            </ul>
+          </div>
+          <!-- </div> -->
+          <!-- <div class="row"> -->
+          <div class="input-field col s6">
+            <input type="text" name="org_name" id="org_name" required class="validate">
+            <label for="org_name">Organization Name:</label>
+          </div>
+          <div class="input-field col s6">
+            <select name="project_id" id="project_id"  required class="validate">
+              <option selected disabled>Choose</option>
+              <% for (var i = 0; i < project.length; i++) {%>
+                <option value="<%= project[i].project_id %>"><%= project[i].project_name.toUpperCase() %> | <%= project[i].project_code.toUpperCase() %></option>
+              <%}%>
+            </select>
+            <label for="project_id">Project(s)</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+              <select name="district_id" id="district_id" multiple required class="validate">
+                  <option selected disabled>Choose</option>
+                  <% for (var i = 0; i < district.length; i++){%>
+                    <option value="<%= district[i].id %>"><%=district[i].provinceName.toUpperCase() %> | <%=district[i].districtName.toUpperCase() %></option>
+                  <%}%>
+                </select>
+            <label for="district_id">Districts</label>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 ">
+            <button class="btn waves-effect waves-light btn-block light-blue darken-4 white-text" type="submit">Submit
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+
+        </div>
+      </form>
+      <div class="col s4">
+          <ul class="collection">
+              <li class="collection-item light-blue darken-4 white-text">Organizations List</li>
+            </ul>
+        <div id="orgList"></div>
+      </div>
+      <div class="col s8">
+          <ul class="collection">
+              <li class="collection-item light-blue darken-4 white-text">Organization Projects &amp; Locations</li>
+            </ul>
+        <div id="orgInfo"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+
+  <script>
+    $(document).ready(function(){
+    $('select').formSelect();
+  });
+    var MyDateField = function (config) {
+      jsGrid.Field.call(this, config);
+    };
+
+    MyDateField.prototype = new jsGrid.Field({
+
+      css: "date-field", // redefine general property 'css'
+      align: "center", // redefine general property 'align'
+
+      myCustomProperty: "foo", // custom property
+
+      sorter: function (date1, date2) {
+        return new Date(date1) - new Date(date2);
+      },
+
+      itemTemplate: function (value) {
+        return new Date(value).toDateString();
+      },
+
+      insertTemplate: function (value) {
+        return this._insertPicker = $("<input>").datepicker({
+          defaultDate: new Date()
+        });
+      },
+
+      editTemplate: function (value) {
+        return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value));
+      },
+
+      insertValue: function () {
+        return this._insertPicker.datepicker("getDate").toISOString();
+      },
+
+      editValue: function () {
+        return this._editPicker.datepicker("getDate").toISOString();
+      }
+    });
+
+    jsGrid.fields.date = MyDateField;
+    var orgs = <%- orgs -%>;
+    var orgDetail = function(org){
+      return new Promise ((resolve, reject)=>{
+        $.ajax({
+          url: '/orgInfo/'+org,
+          method: 'GET',
+          type: 'JSON',
+          success: function(data){
+            console.log(data);
+            resolve(data)
+          },
+          error: function(err){
+            reject(err);
+          }
+        })
+      })
+    }
+    function loadOrgInfo (org){
+      const babu = org;
+      // $('#orgInfo').jsGrid("destroy");
+      orgDetail(org).then(result=>{
+        $("#orgInfo").jsGrid({
+          height: "350px",
+          width: "100%",
+          pageLoading: true, // this is the clue
+
+
+          data: result,
+          fields: [{
+            name:'project_name',
+            title:'Project Name',
+            type:'Text'
+          }, {
+            name:'project_code',
+            title:'Project Code',
+            type:'Text'
+          },
+            {
+            name:'provinceName',
+            title:'Province',
+            type:'Text'
+          },{
+            name:'districtName',
+            title:'District',
+            type:'Text'
+          }
+          ]
+          
+        });
+    
+      })
+     // orgDetail(7).then(result=>{console.log(result)}).catch(e=>{console.log(e)});
+    // console.log(x)
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.datepicker');
+      var instances = M.Datepicker.init(elems, {
+        autoClose: true
+      });
+    });
+    $("#orgList").jsGrid({
+      width: "100%",
+      height: "350px",
+
+      // inserting: true,
+      // editing: true,
+      sorting: true,
+      paging: true,
+
+      data: orgs,
+
+      fields: [{
+          name: "org_id",
+          title: 'Id',
+          type: "number",
+          width: 30
+        },
+        {
+          name: "org_name",
+          title: 'Organization Name',
+          type: "text"
+        }
+      ],
+      rowClick: function(args){
+        // this.editItem(args.item);
+        var jjj = args.item.org_id;
+        console.log(jjj)
+        loadOrgInfo(jjj);
+      }
+
+    });
+  </script>

@@ -527,5 +527,21 @@ module.exports = function(app, knex){
       })
   })
 
+  app.get('/orgInfo/:orgId',(req,resp)=>{
+    var org_id = req.params.orgId;
+    if(org_id){
+
+      knex('v_org_location')
+        .where({org_id})
+        .then(result=>{
+          resp.json(result);
+        })
+        .catch(e=>{
+          resp.json(e);
+        })
+    } else {
+      resp.json({msg:'Please provide org id'})
+    }
+  })
 
 }

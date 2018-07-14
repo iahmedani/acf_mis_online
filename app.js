@@ -30,7 +30,7 @@ session = require('express-session'),
   flash = require('connect-flash'),
   expressValidator = require('express-validator'),
   engine = require('ejs-mate');
-
+  var newAdmin = require('./routes/adminv2');
 // express app
 var app = express();
 
@@ -83,6 +83,7 @@ app.use(expressValidator({
   require('./routes/reporting')(app, knex);
   require('./routes/api')(app, knex);
   require('./routes/apiv2')(app, knex);
+  app.use('/myadmin',newAdmin);
 
   app.listen(process.env.PORT, (err)=>{
     if(err) throw new Error(err);

@@ -3,7 +3,7 @@
 <% include partials/head %>
 <body>
     <% include partials/navbar %>
-    <% if(url.includes('dashboard') || url.includes('report')) {%>
+    <% if(url.includes('dashboard') || url.includes('report') || url.includes('myadmin')) {%>
       <% include partials/sidenav %>
     <%}%>
     <%- messages('messages', locals) %>
