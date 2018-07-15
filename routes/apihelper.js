@@ -32,6 +32,9 @@ module.exports.uploadScreening = (scrArray, knex) => {
         plw.no_mm_tabs = data.no_mm_tabs;
         plw.client_scr_id = data.screening_id;
         plw.client_id = data.client_id;
+        plw.username = data.username;
+        plw.org_name = data.org_name;
+        plw.project_name = data.project_name;
         // plw.created_at = Date.now();
       } else {
         child.screening_type = data.screening_type;
@@ -53,6 +56,9 @@ module.exports.uploadScreening = (scrArray, knex) => {
         child.no_mm_sch = data.no_mm_sch;
         child.client_scr_id = data.screening_id;
         child.client_id = data.client_id;
+        child.username = data.username;
+        child.org_name = data.org_name;
+        child.project_name = data.project_name;
         // child.created_at = Date.now();
 
       }
