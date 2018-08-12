@@ -6,13 +6,13 @@ module.exports.uploadScreening = (scrArray, knex) => {
     }
     return true;
   }
-  
+
   var wfp = [];
   return new Promise((resolve, reject) => {
     console.log(scrArray)
     scrArray.forEach(data => {
       var plw = {};
-  var child = {};
+      var child = {};
       if (data.is_plw === 1) {
         plw.screening_type = data.screening_type;
         plw.screening_date = data.screening_date;
@@ -126,7 +126,7 @@ module.exports.updateScreening = function (scrUpd, knex) {
   }
   var wfp = [];
   return new Promise((resolve, reject) => {
-    
+
     scrUpd.forEach(data => {
       var plw = {};
       var child = {};
@@ -326,10 +326,10 @@ module.exports.uploadOtpExit = function (otpExit, knex) {
 
 }
 
-module.exports.updateOtpExit = function(otpExitUpd, knex){
-  return new Promise((resolve, reject)=>{
+module.exports.updateOtpExit = function (otpExitUpd, knex) {
+  return new Promise((resolve, reject) => {
 
-    otpExitUpd.forEach(data=>{
+    otpExitUpd.forEach(data => {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.exit_id;
@@ -351,103 +351,124 @@ module.exports.updateOtpExit = function(otpExitUpd, knex){
               msg: 'OTP Exit Not Updated'
             })
           }
-        })  
+        })
         .catch(e => {
           reject(e)
-  
+
         })
     })
     resolve('OTP exit updated')
   })
-  
+
 
 }
 
-module.exports.uploadFollowup = function(followup, knex){
-  return new Promise((resolve, reject)=>{
-    followup.forEach(data=>{
-    data.client_followup_id = data.followup_id;
-    data.client_otp_id = data.otp_id;
-    delete data.otp_id;    
-    delete data.followup_id;
-    // resp.json(data);
-    console.log(data);
-    knex('tblOtpFollowup')
-      .where({client_id: data.client_id, client_followup_id: data.client_followup_id})
-      .then(result=>{
-        if(result.length > 0 ){
-          console.log({msg: 'followup already exists'})
-        }else{
-          knex('tblOtpFollowup')
-                .insert(data)
-                .returning('client_followup_id')
-                .then(res=>{
-                  console.log(res);
-                  if(res){          
-                    console.log({msg: 'Followup Added'})      
-                  }
-                })
-        }
-      })     
-      .catch(e=>{
-        reject(e)
-      })
+module.exports.uploadFollowup = function (followup, knex) {
+  return new Promise((resolve, reject) => {
+    followup.forEach(data => {
+      data.client_followup_id = data.followup_id;
+      data.client_otp_id = data.otp_id;
+      delete data.otp_id;
+      delete data.followup_id;
+      // resp.json(data);
+      console.log(data);
+      knex('tblOtpFollowup')
+        .where({
+          client_id: data.client_id,
+          client_followup_id: data.client_followup_id
+        })
+        .then(result => {
+          if (result.length > 0) {
+            console.log({
+              msg: 'followup already exists'
+            })
+          } else {
+            knex('tblOtpFollowup')
+              .insert(data)
+              .returning('client_followup_id')
+              .then(res => {
+                console.log(res);
+                if (res) {
+                  console.log({
+                    msg: 'Followup Added'
+                  })
+                }
+              })
+          }
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
     resolve('Followups Added')
   })
 }
 
-module.exports.uploadSession = function(sessions, knex){
-  return new Promise((resolve, reject)=>{
-    sessions.forEach(data=>{
+module.exports.uploadSession = function (sessions, knex) {
+  return new Promise((resolve, reject) => {
+    sessions.forEach(data => {
       data.client_session_id = data.session_id;
       delete data.session_id;
-          // resp.json(data);
-  
+      // resp.json(data);
+
       console.log(data);
       knex('tblSessions')
-        .where({client_id: data.client_id, client_session_id: data.client_session_id})
-        .then(result=>{
-          if(result.length > 0 ){
-            console.log({msg: 'Session already exists'})
-          }else{
+        .where({
+          client_id: data.client_id,
+          client_session_id: data.client_session_id
+        })
+        .then(result => {
+          if (result.length > 0) {
+            console.log({
+              msg: 'Session already exists'
+            })
+          } else {
             knex('tblSessions')
-                  .insert(data)
-                  .returning('client_session_id')
-                  .then(res=>{
-                    console.log(res);
-                    if(res){          
-                      console.log({msg: 'Session Added'})      
-                    }
+              .insert(data)
+              .returning('client_session_id')
+              .then(res => {
+                console.log(res);
+                if (res) {
+                  console.log({
+                    msg: 'Session Added'
                   })
+                }
+              })
           }
-        })     
-        .catch(e=>{
+        })
+        .catch(e => {
           reject(e)
         })
     })
     resolve('Sessions uploaded')
   })
 }
-module.exports.updateSession = function(sessionUpd, knex){
-  return new Promise((resolve, reject)=>{
-    sessionUpd.forEach(data=>{
+module.exports.updateSession = function (sessionUpd, knex) {
+  return new Promise((resolve, reject) => {
+    sessionUpd.forEach(data => {
       data.client_session_id = data.session_id;
       delete data.session_id;
       // resp.json(data);
       console.log(data);
       knex('tblSessions')
-        .where({client_id: data.client_id, client_session_id: data.client_session_id})
-        .update(data)      
-        .then(result=>{
-          if(result ){
-            console.log({msg: 'Session Updated'})
-          }else{
-            console({msg: 'Session Not Updated'})
+        .where({
+          client_id: data.client_id,
+          client_session_id: data.client_session_id
+        })
+        .update(data)
+        .then(result => {
+          if (result) {
+            console.log({
+              msg: 'Session Updated'
+            })
+          } else {
+            console({
+              msg: 'Session Not Updated'
+            })
           }
-        }) 
-        
-        .catch(e=>{
+        })
+
+        .catch(e => {
           reject(e)
         })
     })
@@ -455,16 +476,150 @@ module.exports.updateSession = function(sessionUpd, knex){
   })
 }
 
+module.exports.uploadNewScrCh = function (newScrChArr, knex) {
+  var newArr = [];
+  newScrChArr.forEach(el => {
+    el.client_scr_ch_id = el.ch_scr_id;
+    delete el.ch_scr_id;
+    newArr.push(el);
+  });
+  console.log(newArr)
+  return new Promise((resolve, reject) => {
+    knex('tblScrChildren')
+      .insert(newArr)
+      .returning('client_scr_ch_id')
+      .then(ids => {
+        if (ids.length > 0) {
+          console.log({
+            msg: `Children screening with ids: ${ids} have been uploaded`
+          })
+          resolve('Children screening uploaded')
+        } else {
+          console.log({
+            msg: `Children screening could not be uploaded`
+          })
 
+        }
+      })
+      .catch(error => reject(error))
+  })
+}
 
+module.exports.updateNewScrCh = function (newScrChUpd, knex) {
+  var newArr = [];
+  newScrChUpd.forEach(el => {
+    el.client_scr_ch_id = el.ch_scr_id;
+    delete el.ch_scr_id;
+    newArr.push(el);
+  });
+  return new Promise((resolve, reject) => {
+    var newResponse = {
+      id: [],
+      errors: []
+    }
+    newArr.forEach(el => {
+      knex('tblScrChildren')
+        .update(el)
+        .where({
+          'client_scr_ch_id': el.client_scr_ch_id
+        })
+        .returning('client_scr_ch_id')
+        .then(up_id => {
+          if (up_id.length > 0) {
+            console.log({
+              msg: `Children screening with up_id: ${up_id} have been uploaded`,
+              ids: up_id
+            })
+            newResponse.id.push(up_id);
+            // resolve('Children screening uploaded')
+          } else {
+            console.log({
+              msg: `Children screening could not be uploaded`
+            })
 
+          }
+        })
+        .catch(error => newResponse.errors.push(error));
 
+    })
+    if (newResponse.errors.length > 0) {
+      reject('Children screening failed')
+    } else {
+      resolve(`Children Screening record(s) updated`)
+    }
+  })
+}
 
+module.exports.uploadNewScrPlw = function (newScrPlwArr, knex) {
+  var newArr = [];
+  newScrPlwArr.forEach(el => {
+    el.client_scr_plw_id = el.plw_scr_id;
+    delete el.plw_scr_id;
+    newArr.push(el);
+  });
+  console.log(newArr)
+  return new Promise((resolve, reject) => {
+    knex('tblScrPlw')
+      .insert(newArr)
+      .returning('client_scr_plw_id')
+      .then(ids => {
+        if (ids.length > 0) {
+          console.log({
+            msg: `PLW screening with ids: ${ids} have been uploaded`
+          })
+          resolve('PLW screening uploaded')
+        } else {
+          console.log({
+            msg: `PLW screening could not be uploaded`
+          })
 
+        }
+      })
+      .catch(error => reject(error))
+  })
+}
 
+module.exports.updateNewScrPlw = function (newScrPlwUpd, knex) {
+  var newArr = [];
+  newScrPlwUpd.forEach(el => {
+    el.client_scr_plw_id = el.plw_scr_id;
+    delete el.plw_scr_id;
+    newArr.push(el);
+  });
+  return new Promise((resolve, reject) => {
+    var newResponse = {
+      id: [],
+      errors: []
+    }
+    newArr.forEach(el => {
+      knex('tblScrPlw')
+        .update(el)
+        .where({
+          'client_scr_plw_id': el.client_scr_plw_id
+        })
+        .returning('client_scr_plw_id')
+        .then(up_id => {
+          if (up_id.length > 0) {
+            console.log({
+              msg: `PLW screening with up_id: ${up_id} have been uploaded`,
+              ids: up_id
+            })
+            newResponse.id.push(up_id);
+            // resolve('Children screening uploaded')
+          } else {
+            console.log({
+              msg: `PLW screening could not be uploaded`
+            })
 
+          }
+        })
+        .catch(error => newResponse.errors.push(error));
 
-
-
-
-
+    })
+    if (newResponse.errors.length > 0) {
+      reject('PLW screening failed')
+    } else {
+      resolve(`PLW Screening record(s) updated`)
+    }
+  })
+}
