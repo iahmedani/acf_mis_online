@@ -48,7 +48,7 @@ app.use(session({
   saveUninitialized: false,
   secret: settings.secretKey,
   store: new MSSQLStore(config,{autoReconnect: true, autoRemove: 'native'}),
-  cookie: { maxAge:3600000, expires: new Date(Date.now()+3600000)mbhn  }
+  cookie: { maxAge:3600000, expires: new Date(Date.now()+3600000)  }
 }));
 app.use(flash());
 app.use(cors());
