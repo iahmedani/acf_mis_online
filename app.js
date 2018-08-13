@@ -20,13 +20,14 @@ const config = {
 });
 const
   express = require('express'),
-  mongoose = require('mongoose'),
-//   passport = require('passport'),
-//   passportConf = require('./config/passport'),
-session = require('express-session'),
+  // mongoose = require('mongoose'),
+  passport = require('passport'),
+  passportConf = require('./config/auth/passport'),
+  session = require('express-session'),
+  MSSQLStore = require('connect-mssql')(session),
   cookieParser = require('cookie-parser'),
   logger = require('morgan'),
-  ejs = require('ejs'),
+  // ejs = require('ejs'),
   flash = require('connect-flash'),
   expressValidator = require('express-validator'),
   engine = require('ejs-mate');
@@ -46,10 +47,15 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   secret: settings.secretKey,
-  // store: new MongoStore({url: localConfig.dbURL, autoReconnect: true, autoRemove: 'native'})
+  store: new MSSQLStore(config,{autoReconnect: true, autoRemove: 'native'}),
+  cookie: { maxAge:3600000, expires: new Date(Date.now()+3600000)mbhn  }
 }));
 app.use(flash());
 app.use(cors());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use((req, res, next)=>{
   app.locals.user = req.user;
@@ -76,7 +82,12 @@ app.use(expressValidator({
     }
   }));
 
+  // warehouse routes;
+  app.use('/warehouse/admin', require('./routes/warehouse/wh_admin'));
+  app.use('/new_admin', require('./routes/users'));
+
   // routes
+
 
   require('./routes/main')(app);
   require('./routes/admin')(app);
