@@ -3,7 +3,7 @@ exports.up = function (knex, Promise) {
       t.increments('otp_id');
       t.integer('client_otp_id');
       t.integer('client_id');
-      t.primary(['client_otp_id', 'client_id']);
+      t.unique(['client_otp_id', 'client_id']);
       t.integer('site_id').references('id').inTable('tblGeoNutSite');
       t.string('site_village');
       t.date('reg_date');
@@ -46,9 +46,9 @@ exports.up = function (knex, Promise) {
     })
     .createTable('tblOtpExit', (t) => {
       t.increments('exit_id');
-      t.string('client_otp_id');
-      t.string('client_id');
-      t.primary(['client_otp_id', 'client_id']);
+      t.integer('client_otp_id');
+      t.integer('client_id');
+      t.unique(['client_otp_id', 'client_id']);
       t.integer('exit_muac');
       t.integer('exit_weight');
       t.string('exit_ration1');
@@ -72,7 +72,7 @@ exports.up = function (knex, Promise) {
       t.integer('client_followup_id');
       t.integer('client_otp_id');
       t.integer('client_id');
-      t.primary(['client_followup_id', 'client_id']);
+      t.unique(['client_followup_id', 'client_id']);
       t.integer('weight');
       t.string('ration1');
       t.integer('quantity1');

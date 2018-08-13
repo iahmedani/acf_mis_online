@@ -51,7 +51,6 @@ exports.down = function (knex, Promise) {
   return knex.schema.dropTable('tblGeoNutSite')
     .dropTable('tblGeoUC')
     .dropTable('tblGeoTehsil')
-    .dropTable('tblGeoTehsil')
     .dropTable('tblGeoDistrict')
     .dropTable('tblGeoProvince');
 };

@@ -3,7 +3,7 @@ exports.up = function (knex, Promise) {
     [sid] [varchar](255) NOT NULL,
     [session] [varchar](max) NOT NULL,
     [expires] [datetime] NOT NULL
-  ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] GO`)
+  ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]`)
 };
 
 exports.down = function (knex, Promise) {

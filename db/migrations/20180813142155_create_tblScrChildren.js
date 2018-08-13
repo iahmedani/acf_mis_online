@@ -1,9 +1,9 @@
 exports.up = function (knex, Promise) {
   return knex.schema.createTable('tblScrChildren', (t) => {
-    t.integer('[scr_plw_id] int identity(1,1) not null');
+    t.increments('scr_ch_id');
     t.integer('client_scr_ch_id');
     t.integer('client_id');
-    t.primary(['client_scr_ch_id', 'client_id']);
+    t.unique(['client_scr_ch_id', 'client_id']);
     t.integer('site_id').references('id').inTable('tblGeoNutSite');
     t.string('username');
     t.string('project');

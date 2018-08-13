@@ -1,4 +1,5 @@
 // update with your config settings
+// require('dotenv').config();
 module.exports = {
   production: {
     client: 'mssql',
@@ -18,7 +19,7 @@ module.exports = {
   development: {
     client: 'mssql',
     connection: {
-      host: '10.11.71.40',
+      host: '192.168.100.2',
       user: 'sa',
       password: 'imran123',
       database: 'acf_dev_new'
