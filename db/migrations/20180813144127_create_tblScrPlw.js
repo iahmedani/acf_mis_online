@@ -19,6 +19,8 @@ exports.up = function (knex, Promise) {
     t.string('total_scr_lactating');
     t.string('new_scr_pragnent');
     t.string('new_scr_lactating');
+    t.string('reScreened_scr_pragnent');
+    t.string('reScreened_scr_lactating');
     t.string('ifa_tabs_rec_pragnent');
     t.string('ifa_tabs_rec_lactating');
     t.string('muac_gt_21_pragnent');

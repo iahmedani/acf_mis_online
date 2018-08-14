@@ -41,6 +41,8 @@ exports.up = function (knex, Promise) {
     t.integer('normal_boys_2459');
     t.integer('new_girls');
     t.integer('new_boys');
+    t.integer('reScreened_girls');
+    t.integer('reScreened_boys');
     t.integer('mnp_30_girls');
     t.integer('mnp_30_boys');
     t.integer('deworming_girls');
