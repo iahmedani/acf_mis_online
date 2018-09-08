@@ -13,7 +13,7 @@ exports.up = function (knex, Promise) {
       t.string('cnic', 13);
       t.string('address');
       t.string('cnt_number');
-      t.string('age');
+      t.integer('age');
       t.string('gender');
       t.string('plw_type');
       t.string('ent_reason');
@@ -29,6 +29,7 @@ exports.up = function (knex, Promise) {
       t.integer('b_Feeding');
       t.string('od_swol_time');
       t.integer('weight');
+      t.integer('height');
       t.string('ration1');
       t.integer('quantity1');
       t.string('ration2');
@@ -51,6 +52,7 @@ exports.up = function (knex, Promise) {
       t.unique(['client_otp_id', 'client_id']);
       t.integer('exit_muac');
       t.integer('exit_weight');
+      t.integer('exit_height');
       t.string('exit_ration1');
       t.integer('exit_quantity1');
       t.string('exit_ration2');
@@ -74,6 +76,7 @@ exports.up = function (knex, Promise) {
       t.integer('client_id');
       t.unique(['client_followup_id', 'client_id']);
       t.integer('weight');
+      t.integer('height');
       t.string('ration1');
       t.integer('quantity1');
       t.string('ration2');
