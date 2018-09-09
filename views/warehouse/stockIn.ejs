@@ -1,0 +1,68 @@
+<% layout('boilerplate') %>
+<main>
+    <div class="row">
+       <form action="/warehouse/common/stockIn" method="POST" class="col s12">
+        <div class="row">
+            <div class="col s4 m2 l2 input-field"><select name="country_code" id="country_code" class="validate" required><option hidden selected> Select One</option></select><label for="country_code">Country Code</label></div>
+            <div class="col s4 m2 l2 input-field"><select name="base_code" id="base_code" class="validate" required><option hidden selected> Select One</option></select><label for="base_code">Base Code</label></div>
+            <div class="col s4 m2 l2 input-field"><select name="dept_code" id="dept_code" class="validate" required><option hidden selected> Select One</option></select><label for="dept_code">Req: Dept: Code</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="proc_req" id="proc_req" class="validate" required><label for="proc_req">Proc: Req: #</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="proc_line" id="proc_line" class="validate" required><label for="proc_line">Proc: Line</label></div>
+            <div class="col s4 m2 l2 input-field"><select name="proj_code" id="proj_code" class="validate" required><option hidden selected> Select One</option></select><label for="proj_code">Project Code</label></div>
+        </div>
+        <div class="row">
+            <div class="col s4 m2 l2 input-field"><input type="date" name="pr_date" id="pr_date" required class="validate"><label for="pr_date">Proc: Date</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="cat" id="cat" class="validate" required><label for="cat">Cat.</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="item_desc" id="item_desc" class="validate" required><label for="item_desc">Description</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="date" name="req_del_date" id="req_del_date" required class="validate"><label for="req_del_date" >Req: Del: Date</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="del_loc" id="del_loc" required class="validate"><label for="del_loc">Del:
+            Location</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="number" min="0" name="in_qty" id="in_qty"><label for="in_qty">In
+            Qty:</label></div>
+        </div>
+        <div class="row">
+            <div class="col s4 m2 l2 input-field"><input type="text" name="unit" id="unit" required class="validate"><label for="unit">Unit</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="number" min="0" name="unit_price" id="unit_price"  required class="validate"><label for="unit_price">Unit Proce</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="cur" id="cur"  required class="validate"><label for="cur">Cur.</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="warehouse" id="warehouse"  required class="validate"><label for="warehouse">Warehouse</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="date" name="exp_date" id="exp_date"  required class="validate"><label for="exp_date">Expiry Date</label></div>
+            <div class="col s4 m2 l2 input-field"><input type="text" name="sub_pckg" id="sub_pckg"  required class="validate"><label for="sub_pckg">Sub Packaging</label></div>
+        </div>
+        <div class="row">
+            <div class="col s4 m2 l2 input-field"><input type="text" name="sub_pckg_unit" id="sub_pckg_unit" required class="validate"><label for="sub_pckg_unit">Sub: Packaging Unit</label></div>
+            <div class="col s4 m2 l2 input-field"><textarea type="text" name="remarks" id="remarks" required class="materialize-textarea validate"></textarea><label for="remarks">Remarks</label></div>
+            <div class="col s4 m4 l4 input-field">
+                <input type="submit"  class="btn" style="width: 100%;"value="submit">
+            </div>
+            <div class="col s4 m4 l4 input-field">
+                <input type="reset"  class="btn" style="width: 100%;" value="Clear Form">
+            </div>
+        </div>
+    
+        </form>
+    </div>    
+</main>
+
+<script>
+
+    $('.datepicker').datepicker();
+    $('.datepicker').focus(function(e){
+        $(this).datepicker();
+    })
+
+    var data = <%- results %>
+        console.log(data);
+    data.country.forEach(el => {
+        $('#country_code').append(`<option value="${el.country_code}"> ${el.country_code.toUpperCase()}</option>`)
+    })
+    data.base.forEach(el => {
+        $('#base_code').append(`<option value="${el.base_code}"> ${el.base_code.toUpperCase()}</option>`)
+    })
+    data.dept.forEach(el => {
+        $('#dept_code').append(`<option value="${el.dept_code}"> ${el.dept_code.toUpperCase()}</option>`)
+    })
+    data.project.forEach(el => {
+        $('#proj_code').append(`<option value="${el.proj_code}"> ${el.proj_code.toUpperCase()}</option>`)
+    })
+    $
+</script>

@@ -59,8 +59,8 @@ body {
   left:0;
  } */
 
- @media (min-width: 995px){
+@media (min-width: 995px) {
   main {
-    padding-left: 200px
+    padding-left: 200px;
   }
- }
+}

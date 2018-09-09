@@ -21,7 +21,7 @@ exports.up = function(knex, Promise) {
       t.date("exp_date");
       t.string("sub_pckg");
       t.string("sub_pckg_unit");
-      t.string("ramarks");
+      t.string("remarks");
       t.timestamp("created_at").defaultTo(knex.fn.now());
       t.timestamp("update_at");
       t.string("created_by");
@@ -40,7 +40,6 @@ exports.up = function(knex, Promise) {
       t.string("consg_position");
       t.string("consg_address");
       t.string("consg_phone");
-      t.string("trans_name");
       t.string("trans_name");
       t.string("trans_address");
       t.string("trans_phone");

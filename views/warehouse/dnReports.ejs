@@ -1,0 +1,9 @@
+<% layout('boilerplate') %>
+<main>
+  <ul class="collection">
+    <li class="collection-item active">Delievery Notes</li>
+    <% results.forEach(function(el){%>
+      <li class="collection-item"><a href="/warehouse/common/dnReports/<%= el.delNote_id %>">Delivery No: <%= el.delNote_id %></a></li>
+    <%}) %>
+  </ul>
+</main>

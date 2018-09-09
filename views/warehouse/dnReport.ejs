@@ -1,0 +1,158 @@
+<% layout('boilerplate') %>
+<style>
+  .my_box {
+    border: 0.5px solid grey;
+    padding: 10px 10px !important;
+  }
+  .my_box > input {
+    margin: 0%  !important;
+    border-bottom: none !important;
+  }
+  .input-field {
+    margin-top: 0% !important;
+    margin-bottom: 0% !important;
+  }
+  .col .row {
+    margin-left: 0% !important;
+    margin-right: 0% !important;
+    margin-bottom: 0% !important;
+  }
+  th{
+    font-size: 0.75rem;
+  }
+  td, td{
+    font-size: 0.75rem;
+    padding: 0%;
+    text-align: center !important;
+  }
+  input {
+    border: 0px;
+    height: 100%;
+  }
+  tr, th, td {
+    border: 0.5px solid grey;
+  }
+  </style>
+<main>
+  <div class="card" id="dnnReport">
+    <div class="row">
+      <div class="col s12">
+        <h5 class="center-align">DELIVERY NOTE </h5>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col s12 m4 l4 input-field"><input type="text" value="<%= result.delNote[0].delNote_ref_num %>" id="delNote_ref_num" readonly><label
+            for="delNote_ref_num">DN
+            Reference</label></div>
+        <div class="col s12 m4 l4 input-field"><input type="text" value="<%= result.delNote[0].sro_ref_num %>" readonly id="sro_ref_num"><label for="sro_ref_num">SRO
+            Reference</label></div>
+        <div class="col s12 m4 l4 input-field"><input type="text" value="<%= result.delNote[0].del_date.toLocaleString() %>" readonly id="del_date"><label for="del_date">Date</label></div>
+      </div>
+      <div class="row">
+        <div class="col s6 my_box">
+          <h6> <strong>Shipper / Expéditeur (*)</strong> </h6>
+          <div class="row input-field">
+            <input type="text" value="<%= result.delNote[0].shipper_name%>" readonly id="shipper_name">
+            <label for="shipper_name">Name</label>
+          </div>
+          <div class="row input-field">
+            <input type="text" value="<%= result.delNote[0].shipper_address %>" readonly id="shipper_address">
+            <label for="shipper_address">Address</label>
+          </div>
+          <div class="row input-field"><input type="text" value="<%= result.delNote[0].shipper_phone %>" readyonly d="shipper_phone">
+            <label for="shipper_phone">Phone</label></div>
+          <div class="row input-field"><input type="text" value="" readonly id="shipper_sig">
+            <label for="shipper_sig">Signature</label></div>
+        </div>
+        <div class="col s6 my_box">
+          <h6><strong>Consignee / Destinataire (*)</strong></h6>
+          <div class="row input-field">
+            <input type="text" value="<%= result.delNote[0].consg_name %>" readonly id="consg_name">
+            <label for="consg_name">Name</label>
+          </div>
+          <div class="row input-field"><input type="text" value="<%= result.delNote[0].consg_position %>" readonly id="consg_position">
+            <label for="consg_position">Position</label></div>
+          <div class="row input-field">
+            <input type="text" value="<%= result.delNote[0].consg_address %>" readonly id="consg_address">
+            <label for="consg_address">Address</label>
+          </div>
+          <div class="row input-field"><input type="text" value="<%= result.delNote[0].consg_phone %>" readonly id="consg_phone">
+            <label for="consg_phone">Phone</label></div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6 image-responsive">
+          <img src="/img/acf_dnn.png" class="card-image" alt="">
+        </div>
+        <div class="col s6 my_box">
+          <h6><strong>Transh6ort mode / Mode de transport :</strong></p>
+          <div class="row input-field">
+            <input type="text" value="<%= result.delNote[0].trans_name %>" readonly id="trans_name">
+            <label for="trans_name">Name</label>
+          </div>
+
+          <div class="row input-field">
+            <input type="text" value="<%= result.delNote[0].trans_address %>" id="trans_address">
+            <label for="trans_address">Address</label>
+          </div>
+          <div class="row input-field"><input type="text" value="<%= result.delNote[0].trans_phone %>" readonly id="trans_phone">
+            <label for="trans_phone">Phone</label></div>
+          <div class="row input-field"><input type="text" value="<%= result.delNote[0].trans_reg_num %>" readonly id="trans_reg_num">
+            <label for="trans_reg_num">Registration #</label></div>
+          <div class="row input-field"><input type="text" value="<%= result.delNote[0].trans_date %>" id="trans_date">
+            <label for="trans_date">Date</label></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <table class="table" id="tb">
+
+          <!-- <div class="col s12 m12 l12" id="dnGrid"></div> -->
+          <tr>
+            <th>Country Code</th>
+            <th>Base Code</th>
+            <th>Dept: Code</th>
+            <th>Proc: Request #</th>
+            <th>Proc: Request Line Item</th>
+            <th>Item Name</th>
+            <th>Batch ID</th>
+            <th>Qty Out</th>
+            <th>Unit</th>
+            <th>Received Quantity</th>
+            <th>Quality, observations</th>
+          </tr>
+          <% result.out.forEach(function(el){%>
+            <tr>
+                <th><%= el.country_code %></th>
+                <th><%= el.base_code %></th>
+                <th><%= el.dept_code %></th>
+                <th><%= el.proc_req %></th>
+                <th><%= el.proc_line %></th>
+                <th><%= el.item_desc %></th>
+                <th><%= el.stockIn_id %></th>
+                <th><%= el.out_qty %></th>
+                <th><%= el.out_unit %></th>
+                <th><%= el.qty_delivered %></th>
+                <th><%= el.obs_delivered %></th>
+            </tr>
+          <%})%>
+        </table>
+
+      </div>
+      <div class="row">
+
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea"  value="<%= result.delNote[0].remarks %>" readonly></textarea>
+          <label for="textarea1">Remarks</label>
+          <button onclick="myFunction()">Print this page</button>
+          
+        </div>
+      </div>
+  </div>
+</main>
+<script>
+  function myFunction() {
+    window.print();
+  }
+</script>

@@ -19,10 +19,10 @@ module.exports = {
   development: {
     client: "mssql",
     connection: {
-      host: "192.168.100.6",
+      host: "localhost",
       user: "sa",
       password: "imran123",
-      database: "acf_dev_new"
+      database: "acf_online_db_new"
     },
     migrations: {
       directory: "./db/migrations"

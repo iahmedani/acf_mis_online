@@ -1,0 +1,219 @@
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+<!-- Modal Structure -->
+<div id="country" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5>Add Country Code</h5>
+    <div id="countryGrid">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+  </div>
+</div>
+<!-- Modal Structure -->
+<div id="base" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h5>Add Base Code</h5>
+
+    <div id="baseGrid">
+
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Disagree</a>
+</div>
+</div>
+<!-- Modal Structure -->
+<div id="department" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col s6">
+        <h5>Add Department Code</h5>
+        <label for="dept_code">Dept Code</label>
+        <input type="text" name="dept_code" id="dept_code">
+      </div>
+      <div class="col s6">
+        <h5>Department Codes</h5>
+
+        <ul class="collection" id="dept_list">
+
+        </ul>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action waves-effect waves-green btn-flat " id="btnDeptSave">Save</a>
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Disagree</a>
+  </div>
+</div>
+<!-- Modal Structure -->
+<div id="project" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col s6">
+        <h5>Add Project</h5>
+        <label for="proj_code">Project Code</label>
+        <input type="text" name="dept_code" id="dept_code">
+        <label for="proj_desc">Project Description</label>
+        <input type="text" name="proj_desc" id="proj_desc">
+
+      </div>
+      <div class="col s6">
+        <h5>Add Project</h5>
+        <ul class="collection" id="project_list"></ul>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action waves-effect waves-green btn-flat ">Save</a>
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Disagree</a>
+  </div>
+</div>
+<!-- Modal Structure -->
+<div id="category" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col s6">
+        <h5>Add Category</h5>
+        <label for="category">Category Code</label>
+        <input type="text" name="category" id="category_name">
+      </div>
+      <div class="col s6">
+        <ul class="collection" id="category_list"></ul>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action waves-effect waves-green btn-flat ">Save</a>
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Disagree</a>
+  </div>
+</div>
+<!-- Modal Structure -->
+<div id="item" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col s6">
+        <h5>Add Item</h5>
+        <label for="item_category">Category </label>
+        <input type="text" name="item_category" id="item_category">
+        <label for="item">Item </label>
+        <input type="text" name="item" id="item_name">
+        <label for="item">Item </label>
+        <input type="text" name="item" id="item_name">
+
+      </div>
+      <div class="col s6" id="itemGrid">
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action waves-effect waves-green btn-flat ">Save</a>
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Disagree</a>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+
+  $('#btn_country').on('click', function (e) {
+    $('#country_list').empty();
+    $.ajax({
+      url: '/warehouse/common/Country',
+      method: 'GET',
+      success: function (data) {
+        if (data) {
+          console.log(data);
+
+          data.forEach(element => {
+            $('#country_list').append('<li class="collection-item">' + element.country_code.toUpperCase() + '</li>')
+          });
+        }
+      }
+    })
+  })
+
+  $("#baseGrid").jsGrid({
+    width: "100%",
+    height: "400px",
+
+    inserting: true,
+    editing: true,
+    sorting: true,
+    paging: true,
+    controller: {
+      loadData: (filter) => {
+        return $.ajax({
+          type: "GET",
+          url: "/warehouse/common/Base",
+          data: filter
+        })
+      },
+      insertItem: (item) => {
+        return $.ajax({
+          type: "POST",
+          url: "/warehouse/common/Base",
+          data: item
+        })
+      }
+    },
+
+    fields: [
+      { name: "base_code", title: "Base Code", type: "text", width: 150, validate: "required" },
+      {
+        type: "control",
+        editButton: false,
+        deleteButton: false,
+      }
+    ]
+  });
+
+  $("#countryGrid").jsGrid({
+    width: "100%",
+    height: "400px",
+    inserting: true,
+    editing: true,
+    sorting: true,
+    paging: true,
+    controller: {
+      loadData: () => {
+        return $.ajax({
+          type: "GET",
+          url: "/warehouse/common/Country",
+        })
+      },
+      insertItem: (item) => {
+        return $.ajax({
+          type: "POST",
+          url: "/warehouse/common/Country",
+          data: item
+        })
+      }
+    },
+
+    fields: [
+      { name: "country_code", title: "Country Code", type: "text", width: 150, validate: "required" },
+      {
+        type: "control",
+        editButton: false,
+        deleteButton: false,
+      }
+    ]
+  });
+
+
+
+</script>
