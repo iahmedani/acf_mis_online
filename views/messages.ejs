@@ -1,7 +1,7 @@
 <% Object.keys(messages).forEach(function(type) {%> 
-    <div class="alert alert-<%= type %>">
-      <% messages[type].forEach(function(message){%>
-        M.toast({html: <%= message %>})      
+  <% messages[type].forEach(function(message){%>
+    <script>
+        M.toast({html: '<%= message %>', classes:'<%= type %> rounded'})      
+        </script>
       <%})%>
-    </div> 
 <%})%>

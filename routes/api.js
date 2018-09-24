@@ -1,4 +1,6 @@
-module.exports = function(app, knex){
+const syncAuth = require('../config/auth/syncAuth');
+
+module.exports = function (app, knex) {
   app.post('/Province', (req, resp) => {
     knex.select().table(`tblGeoProvince`).then((result) => {
       if (result.length > 0) {
@@ -61,7 +63,7 @@ module.exports = function(app, knex){
   })
 
   //Electron geo data push
-  app.get('/getProvince', (req, resp) => {
+  app.get('/getProvince', syncAuth, (req, resp) => {
     knex.select().table(`tblGeoProvince`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
@@ -72,7 +74,7 @@ module.exports = function(app, knex){
       }
     })
   })
-  app.get('/getDistrict', (req, resp) => {
+  app.get('/getDistrict', syncAuth, (req, resp) => {
     knex.select().table(`tblGeoDistrict`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
@@ -84,7 +86,7 @@ module.exports = function(app, knex){
     })
   })
   
-  app.get('/getTehsil', (req, resp) => {
+  app.get('/getTehsil', syncAuth, (req, resp) => {
     knex.select().table(`tblGeoTehsil`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
@@ -96,7 +98,7 @@ module.exports = function(app, knex){
     })
   })
   
-  app.get('/getUC', (req, resp) => {
+  app.get('/getUC', syncAuth, (req, resp) => {
     knex.select().table(`tblGeoUC`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
@@ -108,7 +110,7 @@ module.exports = function(app, knex){
     })
   });
   
-  app.get('/getSite', (req, resp) => {
+  app.get('/getSite', syncAuth,(req, resp) => {
     knex.select().table(`tblGeoNutSite`).then((result) => {
       if (result.length > 0) {
         resp.json(result);

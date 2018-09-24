@@ -54,3 +54,4 @@ exports.down = function (knex, Promise) {
     .dropTable('tblGeoDistrict')
     .dropTable('tblGeoProvince');
 };
+exports.config = { transaction: false };

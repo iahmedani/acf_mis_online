@@ -2,7 +2,7 @@ exports.up = function (knex, Promise) {
   return knex.schema.createTable('tblScrPlw', (t) => {
     t.increments('scr_plw_id');
     t.integer('client_scr_plw_id');
-    t.integer('client_id');
+    t.string('client_id');
     t.unique(['client_scr_plw_id', 'client_id']);
     t.integer('site_id').references('id').inTable('tblGeoNutSite');
     t.string('username');
@@ -46,3 +46,4 @@ exports.up = function (knex, Promise) {
 exports.down = function (knex, Promise) {
   return knex.schema.dropTable('tblScrPlw');
 };
+exports.config = { transaction: false };

@@ -94,6 +94,7 @@ app.use(
 app.use("/warehouse/admin", require("./routes/warehouse/wh_admin"));
 app.use("/new_admin", require("./routes/users"));
 app.use("/warehouse/common", require("./routes/warehouse/wh_common"));
+app.use("/regapp", require('./routes/test'));
 
 // routes
 

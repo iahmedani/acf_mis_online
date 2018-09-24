@@ -30,5 +30,20 @@ module.exports = {
     seeds: {
       directory: "./db/seeds/development"
     }
+  },
+  docker: {
+    client: "mssql",
+    connection: {
+      host: "localhost",
+      user: "sa",
+      password: "@Badin41101",
+      database: "acf_online_db_new"
+    },
+    migrations: {
+      directory: "./db/migrations"
+    },
+    seeds: {
+      directory: "./db/seeds/development"
+    }
   }
 };

@@ -74,3 +74,5 @@ exports.down = function(knex, Promise) {
     .dropTable("tblDelnote")
     .dropTable("tblLogIn");
 };
+
+exports.config = { transaction: false };

@@ -56,3 +56,5 @@ exports.down = function(knex, Promise) {
     .dropTable("tblCountry")
     .dropTable("tblBase");
 };
+
+exports.config = { transaction: false };

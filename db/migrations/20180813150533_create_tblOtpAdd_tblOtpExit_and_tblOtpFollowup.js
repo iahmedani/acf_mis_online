@@ -2,7 +2,7 @@ exports.up = function (knex, Promise) {
   return knex.schema.createTable('tblOtpAdd', (t) => {
       t.increments('otp_id');
       t.integer('client_otp_id');
-      t.integer('client_id');
+      t.string('client_id');
       t.unique(['client_otp_id', 'client_id']);
       t.integer('site_id').references('id').inTable('tblGeoNutSite');
       t.string('site_village');
@@ -48,7 +48,7 @@ exports.up = function (knex, Promise) {
     .createTable('tblOtpExit', (t) => {
       t.increments('exit_id');
       t.integer('client_otp_id');
-      t.integer('client_id');
+      t.string('client_id');
       t.unique(['client_otp_id', 'client_id']);
       t.integer('exit_muac');
       t.integer('exit_weight');
@@ -73,7 +73,7 @@ exports.up = function (knex, Promise) {
       t.increments('followup_id');
       t.integer('client_followup_id');
       t.integer('client_otp_id');
-      t.integer('client_id');
+      t.string('client_id');
       t.unique(['client_followup_id', 'client_id']);
       t.integer('weight');
       t.integer('height');
@@ -101,3 +101,4 @@ exports.down = function (knex, Promise) {
     .dropTable('tblOtpExit')
     .dropTable('tblOtpAdd');
 };
+exports.config = { transaction: false };

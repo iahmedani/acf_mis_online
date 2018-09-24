@@ -1,0 +1,116 @@
+<% layout('boilerplate') %>
+<style>
+th, td {
+  padding: 3px 3px !important;
+  border: 0.5px solid rgba(0, 0, 0, 0.2) !important;
+}
+</style>
+<main>
+   <div class="row">
+     <div class="col s4 card ">
+          <h5 class="card-title ">Generate Key</h5>
+       <form action="/regapp/appkey" class="col s12" method="POST">
+           <div class="input-field col s12">
+             <input id="name" name="name" type="text" class="validate" required>
+             <label for="name"> Name</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="email" name="email" type="email" class="validate" required>
+             <label for="email">Email</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="organization" name="organization" type="text" class="validate" required>
+             <label for="organization">Organization</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="submit" type="submit" value="Submit" class="btn btn-primary" style="width:100%;">
+           </div>
+          </form>
+        </div>
+        <div class="col s8">
+          <table class="responsive-table striped">
+            <tr class="blue darken-3" style="height:20px;">
+              <th>Sr. #</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Organization</th>
+              <th>Reg Key</th>
+              <th>Active</th>
+            </tr>
+            <% result.forEach(el=>{%>
+              <tr >
+                <td><%= el.id %></td>
+                <td><%= el.name %></td>
+                <td><%= el.email %></td>
+                <td><%= el.organization %></td>
+                <td><%= el.key %></td>
+                <td>
+                  <div class="switch">
+                    <label>
+                      <% if(el.status){%>
+                        <input type="checkbox" id="<%= el.id %>" class="myids" checked>
+                      <%} else{%>
+                        <input type="checkbox" id="<%= el.id %>" class="myids" >
+
+                      <%}%>
+                      
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+
+            <%})%>
+          </table>
+        </div>
+     </div>
+</main>
+<script>
+  $('.myids').change(function(){
+    if($(this).is(':checked')){
+      var dataSend= {
+        id: $(this).attr('id'),
+        stat : true
+      }
+      console.log(dataSend)
+      $.ajax({
+        url:'/regapp/appkey',
+        method:'PATCH',
+        type:'JSON',
+        data: dataSend,
+        success: (data)=>{
+          console.log(data);
+          if(data.msg){
+            M.toast({html: 'Updated',classes:'green'})
+          } else{
+            $(this).prop('checked',false)
+          }
+        }
+      })
+      
+      // console.log(`active `+myID)
+    } else{
+      var dataSend = {
+        id: $(this).attr('id'),
+        stat: false
+      }
+      $.ajax({
+        url: '/regapp/appkey',
+        method: 'PATCH',
+        type: 'JSON',
+
+        data: dataSend,
+        success: (data) => {
+          if (data.msg) {
+            M.toast({ html: 'Updated', classes: 'green' })
+          } else {
+            $(this).prop('checked', true)
+          }
+        }
+    })
+  }
+  })
+  
+ 
+
+</script>

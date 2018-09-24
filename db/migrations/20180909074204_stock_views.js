@@ -11,5 +11,7 @@ GROUP BY tblLogIn.stockIn_id, tblLogIn.country_code, tblLogIn.base_code, tblLogI
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable("dn_stock").dropTable("total_stock_out");
+  return knex.schema.raw("DROP VIEW dn_stock").raw("DROP VIEW total_stock_out");
 };
+
+exports.config = { transaction: false };
