@@ -62,6 +62,28 @@ module.exports = function (app, knex) {
       })
   })
 
+  app.post('/app_register', (req, resp)=>{
+    var client_id = req.body.client_id;
+    var mac = req.body.mac;
+    console.log(client_id, mac)
+    knex('tblAppBinding')
+      .where('regKey',client_id)
+      .then(result=>{
+        if(result.length > 0){
+          resp.json({msg:'In-Valid Key, Please request admin for a new key'})
+        }else {
+          knex('tblAppBinding')
+            .insert({mac:mac,regKey:client_id})
+            .then(result=>{
+              resp.json({msg: 'Registration Successfull'})
+            })
+            
+        }
+      }).catch(e=>{
+        console.log(e)
+        resp.json({msg:'System Error, Please contact admin'})
+      })
+  })
   //Electron geo data push
   app.get('/getProvince', syncAuth, (req, resp) => {
     knex.select().table(`tblGeoProvince`).then((result) => {
