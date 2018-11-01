@@ -144,6 +144,17 @@ module.exports = function (app, knex) {
     })
   });
 
+  app.get('/getItems', syncAuth,(req, resp) => {
+    knex.select().table(`tblCommodity`).then((result) => {
+      if (result.length > 0) {
+        resp.json(result);
+      } else {
+        resp.json({
+          'msg': 'No data to show'
+        });
+      }
+    })
+  });
   // electron add screening data
     
   app.post('/screening', (req, resp) => {
