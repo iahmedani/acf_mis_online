@@ -105,6 +105,10 @@ require("./routes/api")(app, knex);
 require("./routes/apiv2")(app, knex);
 // require("./warehouse/wh_common")(app, knex);
 
+app.use(function (req, res, next) {
+  next(res.render('notfound'));
+});
+
 app.listen(process.env.PORT, err => {
   if (err) throw new Error(err);
   console.log("server started on port :" + process.env.PORT);
