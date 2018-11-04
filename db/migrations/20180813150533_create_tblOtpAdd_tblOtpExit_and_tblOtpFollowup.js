@@ -39,7 +39,7 @@ exports.up = function (knex, Promise) {
       t.string('prog_type');
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.timestamp('updated_at').defaultTo(knex.fn.now());
-      t.integer('upload_status');
+      t.integer('upload_status').defaultTo(1);
       t.integer('client_exit_id');
       t.string('username');
       t.string('project_name');
@@ -64,7 +64,7 @@ exports.up = function (knex, Promise) {
       t.string('exit_reason');
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.timestamp('updated_at').defaultTo(knex.fn.now());
-      t.integer('upload_status');
+      t.integer('upload_status').defaultTo(1);
       t.integer('client_exit_id');
       t.integer('weight_gain');
       t.integer('days_in_program');
@@ -90,7 +90,7 @@ exports.up = function (knex, Promise) {
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.timestamp('updated_at').defaultTo(knex.fn.now());
       t.integer('muac');
-      t.integer('upload_status');
+      t.integer('upload_status').defaultTo(1);
     })
 
 };

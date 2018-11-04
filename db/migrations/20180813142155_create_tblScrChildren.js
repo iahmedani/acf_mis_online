@@ -7,7 +7,7 @@ exports.up = function (knex, Promise) {
     t.integer('site_id').references('id').inTable('tblGeoNutSite');
     t.string('username');
     t.string('project');
-    t.integer('upload_status');
+    t.integer('upload_status').defaultTo(1);
     t.boolean('is_deleted');
     t.date('screening_date');
     t.string('village');

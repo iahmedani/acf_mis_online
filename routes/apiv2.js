@@ -150,6 +150,20 @@ module.exports = function (app, knex) {
         });
       })
   })
+  app.post('/stock_reqv1', (req, resp) => {
+    console.log(req.body);
+    helper.uploadStockRequest(req.body, knex)
+      .then(result => {
+        resp.json({
+          success: result
+        })
+      })
+      .catch(e => {
+        resp.json({
+          error: e
+        });
+      })
+  })
   app.post('/sessionsv1', (req, resp) => {
     console.log(req.body);
     helper.uploadSession(req.body, knex)
