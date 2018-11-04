@@ -26,9 +26,9 @@ exports.up = function (knex, Promise) {
     t.integer('sam_with_comp_girls_2459');
     t.integer('sam_with_comp_boys_2459');
     t.integer('mam_boys_623');
-    t.integer('mam_gils_623');
+    t.integer('mam_girls_623');
     t.integer('mam_boys_2459');
-    t.integer('mam_gils_2459');
+    t.integer('mam_girls_2459');
     t.integer('reffer_tsfp_girls');
     t.integer('reffer_tsfp_boys');
     t.integer('reffer_otp_girls');
@@ -64,6 +64,7 @@ exports.up = function (knex, Promise) {
     t.timestamp('created_at').defaultTo(knex.fn.now());
     t.timestamp('updated_at').defaultTo(knex.fn.now());
     t.boolean('isActive').defaultTo(true);
+    t.integer('approved');
   })
 };
 

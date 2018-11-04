@@ -214,7 +214,7 @@ module.exports.uploadOtp = function (otpAdd, knex) {
     otpAdd.forEach(data => {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
-      delete el.upload_status;
+      delete upload_status;
       knex('tblOtpAdd')
         .where({
           client_id: data.client_id,
@@ -292,7 +292,6 @@ module.exports.uploadOtpExit = function (otpExit, knex) {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.exit_id;
-      delete el.upload_status;
       // resp.json(data);
       console.log(data);
       knex('tblOtpExit')
@@ -372,7 +371,7 @@ module.exports.uploadFollowup = function (followup, knex) {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.followup_id;
-      delete el.upload_status;
+      delete upload_status;
       // resp.json(data);
       console.log(data);
       knex('tblOtpFollowup')
@@ -451,8 +450,6 @@ module.exports.uploadSession = function (sessions, knex) {
     sessions.forEach(data => {
       data.client_session_id = data.session_id;
       delete data.session_id;
-      delete el.upload_status;
-
       // resp.json(data);
 
       console.log(data);
@@ -525,7 +522,6 @@ module.exports.uploadNewScrCh = function (newScrChArr, knex) {
   newScrChArr.forEach(el => {
     el.client_scr_ch_id = el.ch_scr_id;
     delete el.ch_scr_id;
-    delete el.upload_status;
     newArr.push(el);
   });
   console.log(newArr)
@@ -600,7 +596,6 @@ module.exports.uploadNewScrPlw = function (newScrPlwArr, knex) {
   newScrPlwArr.forEach(el => {
     el.client_scr_plw_id = el.plw_scr_id;
     delete el.plw_scr_id;
-    delete el.upload_status;
     newArr.push(el);
   });
   console.log(newArr)

@@ -1,0 +1,350 @@
+<% layout('boilerplate') %>
+<style>
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+</style>
+<main role="main">
+  <!-- <div class="container"> -->
+    <div class="row">
+      <form action="#!" id="filterForm">
+      <div class="input-field col s2">
+        <select name="ddProvince" id="ddProvince" class="browser-default">
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div class="input-field col s2">
+
+        <select name="ddDistrict" id="ddDistrict" disabled class="browser-default">
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div class="input-field col s2">
+        <input type="date" name="strDate" id="strDate">
+      </div>
+      <div class="input-field col s2">
+        <input type="date" name="endDate" id="endDate">
+      </div>
+      <div class="input-field col s2">
+       <!-- <input type="submit" value="filer" > -->
+        <button type="submit" class="waves-effect waves-light btn" style="width: 100%;"><i class="material-icons left">filter</i> Filter</button>
+        <!-- <a class="waves-effect waves-light btn" id="filterData" ><i class="material-icons left">filter</i>Filter</a> -->
+      </div>
+      <div class="input-field col s2">
+        <a class="waves-effect waves-light btn" id="refreshPage" onclick="location.reload()" style="width: 100%;"><i class="material-icons left">autorenew</i>Reload</a>
+      </div>
+      </form>
+    </div>
+    <div class="row">
+      <div class="col s6" id="scrChild">
+        
+      </div>
+      <div class="col s6" id="scrPlw">
+
+      </div>
+      <br>
+    </div>
+  <!-- </div> -->
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script>
+    $(()=>{
+      $.ajax({
+        url:'../getProDD'
+      }).done(function(data){
+        console.log(data)
+        $("#ddProvince").children("option:not(:first)").remove();
+        var html = ''
+        data.forEach(el=>{
+          html += `<option value="${el.provinceName}">${el.provinceName}</option>`          
+        })
+         $("#ddProvince").append(html);
+        //  $('select').formSelect();
+         $("#ddProvince").on('change', function(){
+           $('#ddDistrict').attr('disabled', false);
+           $("#ddDistrict").children("option:not(:first)").remove();
+           console.log($(this).val())
+           if($(this).val() != 'all'){
+             var province = $(this).val();
+             $.ajax({
+               url: '../getDistDD',
+               method: 'POST',
+               dataType: 'json',
+               data: {province: province}
+             }).done(function(dist){
+               var distHtml = ''
+               dist.forEach(el => {
+                 distHtml += `<option value="${el.districtName}">${el.districtName}</option>`
+               })
+               $("#ddDistrict").append(distHtml);
+              //  $('select').form  Select();
+             })
+           }
+         })
+         
+
+      })
+      $('#strDate').on('change', function(){
+        $('#endDate').attr('required', true);
+        var datePickerId = document.getElementById('endDate');
+        datePickerId.min = $(this).val();
+      })
+      
+
+    })
+  
+  </script>
+  <script>
+    // function chartsDefault(){
+      var options = {
+        url: '../getAllScrSum',
+        method: 'POST'
+      }
+      $.ajax(options).done(function (data) {
+        console.log(data);
+        function getSum(total, num) {
+          return total + num;
+        }
+        var chData = data.child[0];
+        var plData = data.plw[0];
+        var newData = {
+          sam_without_comp_girls_623: data.child.map(el => el.sam_without_comp_girls_623).reduce(getSum),
+          sam_without_comp_boys_623: data.child.map(el => el.sam_without_comp_boys_623).reduce(getSum),
+          sam_without_comp_girls_2459: data.child.map(el => el.sam_without_comp_girls_2459).reduce(getSum),
+          sam_without_comp_boys_2459: data.child.map(el => el.sam_without_comp_boys_2459).reduce(getSum),
+          sam_with_comp_girls_623: data.child.map(el => el.sam_with_comp_girls_623).reduce(getSum),
+          sam_with_comp_boys_623: data.child.map(el => el.sam_with_comp_boys_623).reduce(getSum),
+          sam_with_comp_girls_2459: data.child.map(el => el.sam_with_comp_girls_2459).reduce(getSum),
+          sam_with_comp_boys_2459: data.child.map(el => el.sam_with_comp_boys_2459).reduce(getSum),
+          mam_boys_623: data.child.map(el => el.mam_boys_623).reduce(getSum),
+          mam_girls_623: data.child.map(el => el.mam_girls_623).reduce(getSum),
+          mam_boys_2459: data.child.map(el => el.mam_boys_2459).reduce(getSum),
+          mam_girls_2459: data.child.map(el => el.mam_girls_2459).reduce(getSum),
+          normal_girls_623: data.child.map(el => el.normal_girls_623).reduce(getSum),
+          normal_boys_623: data.child.map(el => el.normal_boys_623).reduce(getSum),
+          normal_girls_2459: data.child.map(el => el.normal_girls_2459).reduce(getSum),
+          normal_boys_2459: data.child.map(el => el.normal_boys_2459).reduce(getSum)
+        }
+        
+        var plwData = {
+          total_scr_pragnent: data.plw.map(el => el.total_scr_pragnent).reduce(getSum),
+          total_scr_lactating: data.plw.map(el => el.total_scr_lactating).reduce(getSum),
+          new_scr_pragnent: data.plw.map(el => el.new_scr_pragnent).reduce(getSum),
+          new_scr_lactating: data.plw.map(el => el.new_scr_lactating).reduce(getSum),
+          reScreened_scr_pragnent: data.plw.map(el => el.reScreened_scr_pragnent).reduce(getSum),
+          reScreened_scr_lactating: data.plw.map(el => el.reScreened_scr_lactating).reduce(getSum),
+          muac_gt_21_pragnent: data.plw.map(el => el.muac_gt_21_pragnent).reduce(getSum),
+          muac_gt_21_lactating: data.plw.map(el => el.muac_gt_21_lactating).reduce(getSum),
+          muac_le_21_pragnent: data.plw.map(el => el.muac_le_21_pragnent).reduce(getSum),
+          muac_le_21_lactating: data.plw.map(el => el.muac_le_21_lactating).reduce(getSum),
+        }
+
+       var chChart = Highcharts.chart('scrChild', {
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Screening 6-59 M Children'
+          },
+          xAxis: {
+            // : ['Screening', 'Muac < 11.5 cm (SAM)', 'MUAC 11.5-12.4 cm (MAM)', 'MUAC > 12.5 cm']
+            categories: ['Female Children 6-23', 'Male Children 6-23', 'Female Children 24-59', 'Male Children 24-59']
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total Children Screening'
+            },
+            stackLabels: {
+              enabled: true,
+              style: {
+                fontWeight: 'bold',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+              }
+            }
+          },
+          legend: {
+            // align: 'center',
+            // x: -30,
+            verticalAlign: 'bottom',
+            // y: 25,
+            // floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            // borderColor: '#CCC',
+            // borderWidth: 1,
+            shadow: false
+          },
+          tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+          },
+          plotOptions: {
+            column: {
+              stacking: 'normal',
+              dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+              }
+            }
+          },
+          series: [{
+            name: 'Normal MUAC > 12.5 cm',
+            data: [newData.normal_girls_623, newData.normal_boys_623, newData.normal_girls_2459, newData.normal_boys_2459]
+          }, {
+            name: 'MUAC < 11.5 cm (SAM) with complication',
+            data: [newData.sam_with_comp_girls_623, newData.sam_with_comp_boys_623, newData.sam_with_comp_girls_2459, newData.sam_with_comp_boys_2459]
+          },
+          {
+            name: 'MUAC < 11.5 cm (SAM) without complication',
+            data: [newData.sam_without_comp_girls_623, newData.sam_without_comp_boys_623, newData.sam_without_comp_girls_2459, newData.sam_without_comp_boys_2459]
+          },
+          {
+            name: 'MUAC  11.5 - 12.4 cm (MAM)',
+            data: [newData.mam_girls_623, newData.mam_boys_623, newData.mam_girls_2459, newData.mam_boys_2459]
+          }],
+        });
+       var plChart = Highcharts.chart('scrPlw', {
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Screening PLW'
+          },
+          xAxis: {
+            // : ['Screening', 'Muac < 11.5 cm (SAM)', 'MUAC 11.5-12.4 cm (MAM)', 'MUAC > 12.5 cm']
+            categories: ['Pregnant Screening', 'Lactating Screening', 'Total PLW Screening']
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Total PLW Screening'
+            },
+            stackLabels: {
+              enabled: true,
+              style: {
+                fontWeight: 'bold',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+              }
+            }
+          },
+          legend: {
+            // align: 'center',
+            // x: -30,
+            verticalAlign: 'bottom',
+            // y: 25,
+            // floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            // borderColor: '#CCC',
+            // borderWidth: 1,
+            shadow: false
+          },
+          tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>',
+            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+          },
+          plotOptions: {
+            column: {
+              stacking: 'normal',
+              dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+              }
+            }
+          },
+          series: [{
+            name: 'MUAC < 21 cm',
+            data: [plwData.muac_le_21_pragnent, plwData.muac_gt_21_pragnent, (plwData.muac_le_21_pragnent + plwData.muac_gt_21_pragnent)]
+          }, {
+            name: 'MUAC > 21 cm',
+            data: [plwData.muac_le_21_lactating, plwData.muac_gt_21_lactating, (plwData.muac_le_21_lactating + plwData.muac_gt_21_lactating)]
+          }
+          ]
+        });
+      })
+    // }
+    // chartsDefault();
+      function chartsFilter(filter) {
+          var options = {
+            url: '../getAllScrSum',
+            method: 'POST',
+            data: filter
+          }
+          $.ajax(options).done(function (data) {
+            console.log(data);
+            function getSum(total, num) {
+              return total + num;
+            }
+            if(data.child.length > 0){
+              chChart.destroy();
+                    var newData = {
+                sam_without_comp_girls_623: data.child.map(el => el.sam_without_comp_girls_623).reduce(getSum),
+                sam_without_comp_boys_623: data.child.map(el => el.sam_without_comp_boys_623).reduce(getSum),
+                sam_without_comp_girls_2459: data.child.map(el => el.sam_without_comp_girls_2459).reduce(getSum),
+                sam_without_comp_boys_2459: data.child.map(el => el.sam_without_comp_boys_2459).reduce(getSum),
+                sam_with_comp_girls_623: data.child.map(el => el.sam_with_comp_girls_623).reduce(getSum),
+                sam_with_comp_boys_623: data.child.map(el => el.sam_with_comp_boys_623).reduce(getSum),
+                sam_with_comp_girls_2459: data.child.map(el => el.sam_with_comp_girls_2459).reduce(getSum),
+                sam_with_comp_boys_2459: data.child.map(el => el.sam_with_comp_boys_2459).reduce(getSum),
+                mam_boys_623: data.child.map(el => el.mam_boys_623).reduce(getSum),
+                mam_girls_623: data.child.map(el => el.mam_girls_623).reduce(getSum),
+                mam_boys_2459: data.child.map(el => el.mam_boys_2459).reduce(getSum),
+                mam_girls_2459: data.child.map(el => el.mam_girls_2459).reduce(getSum),
+                normal_girls_623: data.child.map(el => el.normal_girls_623).reduce(getSum),
+                normal_boys_623: data.child.map(el => el.normal_boys_623).reduce(getSum),
+                normal_girls_2459: data.child.map(el => el.normal_girls_2459).reduce(getSum),
+                normal_boys_2459: data.child.map(el => el.normal_boys_2459).reduce(getSum)
+              }
+
+              chChart();
+            } else {
+              $('#chScr').empty();
+              $('#chScr').append('<h4>No Data</h4>');
+
+            }
+            if(data.plw.length > 0){
+              var plwData = {
+                total_scr_pragnent: data.plw.map(el => el.total_scr_pragnent).reduce(getSum),
+                total_scr_lactating: data.plw.map(el => el.total_scr_lactating).reduce(getSum),
+                new_scr_pragnent: data.plw.map(el => el.new_scr_pragnent).reduce(getSum),
+                new_scr_lactating: data.plw.map(el => el.new_scr_lactating).reduce(getSum),
+                reScreened_scr_pragnent: data.plw.map(el => el.reScreened_scr_pragnent).reduce(getSum),
+                reScreened_scr_lactating: data.plw.map(el => el.reScreened_scr_lactating).reduce(getSum),
+                muac_gt_21_pragnent: data.plw.map(el => el.muac_gt_21_pragnent).reduce(getSum),
+                muac_gt_21_lactating: data.plw.map(el => el.muac_gt_21_lactating).reduce(getSum),
+                muac_le_21_pragnent: data.plw.map(el => el.muac_le_21_pragnent).reduce(getSum),
+                muac_le_21_lactating: data.plw.map(el => el.muac_le_21_lactating).reduce(getSum),
+              }
+              plChart.destroy();
+              plChart();
+            } else {
+              $('#scrPlw').empty();
+              $('#scrPlw').append('<h4>No Data</h4>');
+
+            }
+          })
+        }
+        $('#filterForm').on('submit', function (e) {
+            var filter = {};
+            if ($('#ddProvince').val() != 'all') {
+              filter.province = $('#ddProvince').val()
+            }
+            if ($('#ddDistrict').val() != 'all') {
+              filter.district = $('#ddDistrict').val()
+            }
+            if ($('#strDate').val()) {
+              filter.data = {
+                strDate: $('#strDate').val(),
+                endDate: $('#endDate').val()
+              }
+            }
+            // $('#scrChild').highcharts().destroy();
+            // $('#scrPlw').highcharts().destroy();
+            chartsFilter(filter);
+            e.preventDefault();
+          })
+
+     
+  </script>
+</main>

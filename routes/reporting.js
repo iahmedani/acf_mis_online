@@ -185,4 +185,7 @@ module.exports = function(app, knex){
   app.get('/report/scrDetail', (req, resp)=>{
     resp.render('reports/scrDetail');
   })
+  app.get('/report/newDashboard', (req, resp) => {
+    resp.render('reports/newDashboard');
+  })
 }

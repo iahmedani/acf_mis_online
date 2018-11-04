@@ -1,5 +1,12 @@
 const async = require('async');
 const helper = require('./apihelper');
+function isEmpty(obj) {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key))
+      return false;
+  }
+  return true;
+}
 module.exports = function (app, knex) {
 
 
@@ -221,7 +228,110 @@ module.exports = function (app, knex) {
       })
   })
 
+  app.post('/getAllScrSum', (req, res) => {
+    var qry = req.body;
+    var chQry = 'exec getAllChildScr '
+    var plwQry = 'exec getAllPlwScr '
+    var builder = [];
+    if (Object.keys(qry).length) {
+      if (qry.province) {
+        builder.push(`@Province = '${qry.province}'`)
+      }
+      if (qry.district) {
+        builder.push(`@District = '${qry.district}'`)
+      }
+      if (qry.date) {
+        builder.push(`@StartDate = '${qry.date.strDate}' , @EndDate = '${qry.date.endDate}'`)
+      }
+      if (builder.length > 0) {
+        chQry += builder.toString();
+        plwQry += builder.toString();
+        console.log(chQry)
+        // res.send(chQry)
+      }
+      
+    } 
+    async.parallel({
+      child: (cb) => {
+        knex.raw(chQry)
+          .then(result => {
+            cb(null,result)
+          }).catch(e => {
+            cb(e)
+          })
+      },
+      plw: (cb) => {
+        knex.raw(plwQry)
+          .then(result => {
+            cb(null, result)
+          }).catch(e => {
+            cb(e)
+          })
+      }
+    }, (err, results) => {
+      if (err) {
+        res.json({ msg: 'Internal Error'})
+      } else {
+        console.log(results)
+        res.json(results)
+      }
+    })
+    
+  })
 
+  app.post('/getAllScrSumv1', (req, res) => {
+    var qry = req.body;
+    console.log(qry)
+    var chQry = 'exec getAllChildScrv1 '
+    var plwQry = 'exec getAllPlwScrv1 '
+    var builder = [];
+    console.log(!Object.keys(qry).length);
+    if (Object.keys(qry).length) {
+      if (qry.province) {
+        builder.push(`@Province = '${qry.province}'`)
+      }
+      if (qry.district) {
+        builder.push(`@District = '${qry.district}'`)
+      }
+      if (qry.date) {
+        builder.push(`@StartDate = '${qry.date.strDate}' , @EndDate = '${qry.date.endDate}'`)
+      }
+      if (builder.length > 0) {
+        chQry += builder.toString();
+        plwQry += builder.toString();
+        console.log(chQry)
+        // res.send(chQry)
+      }
+
+    }
+    async.parallel({
+      child: (cb) => {
+        knex.raw(chQry)
+          .then(result => {
+            cb(null, result)
+          }).catch(e => {
+            cb(e)
+          })
+      },
+      plw: (cb) => {
+        knex.raw(plwQry)
+          .then(result => {
+            cb(null, result)
+          }).catch(e => {
+            cb(e)
+          })
+      }
+    }, (err, results) => {
+      if (err) {
+        res.json({ msg: 'Internal Error' })
+      } else {
+        console.log(results)
+
+        res.json(results)
+      }
+    })
+
+  })
 
 
 }

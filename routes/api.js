@@ -562,5 +562,30 @@ module.exports = function (app, knex) {
       })
   })
 
+  app.post('/getDistDD', (req, resp) => {
+    console.log(req.body)
+    knex.select().table(`v_pro_dist`)
+      .where('provinceName', req.body.province)
+      .then((result) => {
+      if (result.length > 0) {
+        resp.json(result);
+      } else {
+        resp.json({
+          'msg': 'No data to show'
+        });
+      }
+    })
+  })
+  app.get('/getProDD', (req, resp) => {
+    knex.select().table(`tblGeoProvince`).then((result) => {
+      if (result.length > 0) {
+        resp.json(result);
+      } else {
+        resp.json({
+          'msg': 'No data to show'
+        });
+      }
+    })
+  })
 
 }
