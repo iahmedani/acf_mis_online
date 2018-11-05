@@ -232,6 +232,9 @@ module.exports = function (app, knex) {
     var qry = req.body;
     var chQry = 'exec getAllChildScr '
     var plwQry = 'exec getAllPlwScr '
+    var chAdd = 'exec chAdmissions '
+    var chExit = 'exec chExit '
+    var sessionQry = 'exec sessionSum '
     var builder = [];
     if (Object.keys(qry).length) {
       if (qry.province) {
@@ -259,8 +262,36 @@ module.exports = function (app, knex) {
           }).catch(e => {
             cb(e)
           })
-      },
+      }
+      ,
       plw: (cb) => {
+        knex.raw(plwQry)
+          .then(result => {
+            cb(null, result)
+          }).catch(e => {
+            cb(e)
+          })
+      }
+      ,
+      chAdd: (cb) => {
+        knex.raw(plwQry)
+          .then(result => {
+            cb(null, result)
+          }).catch(e => {
+            cb(e)
+          })
+      }
+      ,
+      chExit: (cb) => {
+        knex.raw(plwQry)
+          .then(result => {
+            cb(null, result)
+          }).catch(e => {
+            cb(e)
+          })
+      }
+      ,
+      sessions: (cb) => {
         knex.raw(plwQry)
           .then(result => {
             cb(null, result)
