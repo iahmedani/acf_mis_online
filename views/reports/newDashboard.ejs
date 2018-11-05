@@ -108,8 +108,8 @@ input[type=date]::-webkit-inner-spin-button {
         function getSum(total, num) {
           return total + num;
         }
-        var chData = data.child[0];
-        var plData = data.plw[0];
+        // var chData = data.child[0];
+        // var plData = data.plw[0];
         var newData = {
           sam_without_comp_girls_623: data.child.map(el => el.sam_without_comp_girls_623).reduce(getSum),
           sam_without_comp_boys_623: data.child.map(el => el.sam_without_comp_boys_623).reduce(getSum),
