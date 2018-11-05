@@ -230,8 +230,8 @@ module.exports = function (app, knex) {
 
   app.post('/getAllScrSum', (req, res) => {
     var qry = req.body;
-    var chQry = 'exec getAllChildScr '
-    var plwQry = 'exec getAllPlwScr '
+    var chQry = 'exec getAllChildScrv1 '
+    var plwQry = 'exec getAllPlwScrv1 '
     var chAdd = 'exec chAdmissions '
     var chExit = 'exec chExit '
     var sessionQry = 'exec sessionSum '
@@ -249,12 +249,15 @@ module.exports = function (app, knex) {
       if (builder.length > 0) {
         chQry += builder.toString();
         plwQry += builder.toString();
+        chAdd += builder.toString();
+        chExit += builder.toString();
+        sessionQry += builder.toString();
         console.log(chQry)
         // res.send(chQry)
       }
       
     } 
-    async.parallel({
+    async.series({
       child: (cb) => {
         knex.raw(chQry)
           .then(result => {
@@ -274,7 +277,7 @@ module.exports = function (app, knex) {
       }
       ,
       chAdd: (cb) => {
-        knex.raw(plwQry)
+        knex.raw(chAdd)
           .then(result => {
             cb(null, result)
           }).catch(e => {
@@ -283,7 +286,7 @@ module.exports = function (app, knex) {
       }
       ,
       chExit: (cb) => {
-        knex.raw(plwQry)
+        knex.raw(chExit)
           .then(result => {
             cb(null, result)
           }).catch(e => {
@@ -292,7 +295,7 @@ module.exports = function (app, knex) {
       }
       ,
       sessions: (cb) => {
-        knex.raw(plwQry)
+        knex.raw(sessionQry)
           .then(result => {
             cb(null, result)
           }).catch(e => {
