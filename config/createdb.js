@@ -1,14 +1,4 @@
-require('dotenv').config();
-var knex = require('knex')({
-  client: 'mssql',
-  connection: {
-    host : process.env.RDS_HOSTNAME,
-    user : process.env.RDS_USERNAME,
-    password : process.env.RDS_PASSWORD,
-    database : process.env.DB_DATABASE,
-    port:process.env.RDS_PASSWORD
-  }
-});
+var {knex} = require('./db.js')
 
  // create tblGeoProvince
  knex.schema.hasTable('tblGeoProvince').then(function (exists) {

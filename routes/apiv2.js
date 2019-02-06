@@ -1,5 +1,7 @@
 const async = require('async');
 const helper = require('./apihelper');
+const syncAuth = require('../config/auth/syncAuth');
+
 function isEmpty(obj) {
   for (var key in obj) {
     if (obj.hasOwnProperty(key))
@@ -55,7 +57,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.post('/newChScr', (req, resp) => {
+  app.post('/newChScr', syncAuth, (req, resp) => {
     // console.log(req.body);
     helper.uploadNewScrCh(req.body, knex)
       .then(result => {
@@ -71,7 +73,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.put('/newChScr', (req, resp) => {
+  app.put('/newChScr', syncAuth, (req, resp) => {
     console.log(req.body);
     helper.updateNewScrCh(req.body, knex)
       .then(result => {
@@ -85,7 +87,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.post('/newPlwScr', (req, resp) => {
+  app.post('/newPlwScr', syncAuth,(req, resp) => {
     // console.log(req.body);
     helper.uploadNewScrPlw(req.body, knex)
       .then(result => {
@@ -101,7 +103,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.put('/newPlwScr', (req, resp) => {
+  app.put('/newPlwScr', syncAuth, (req, resp) => {
     console.log(req.body);
     helper.updateNewScrPlw(req.body, knex)
       .then(result => {
@@ -115,7 +117,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.post('/otpv1', (req, resp) => {
+  app.post('/otpv1', syncAuth, (req, resp) => {
     console.log(req.body);
     helper.uploadOtp(req.body, knex)
       .then(result => {
@@ -124,12 +126,13 @@ module.exports = function (app, knex) {
         })
       })
       .catch(e => {
+        console.log(e)
         resp.json({
           error: e
         });
       })
   })
-  app.put('/otpv1', (req, resp) => {
+  app.put('/otpv1', syncAuth, (req, resp) => {
     console.log(req.body);
     helper.updateOtp(req.body, knex)
       .then(result => {
@@ -143,7 +146,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.post('/followupv1', (req, resp) => {
+  app.post('/followupv1', syncAuth, (req, resp) => {
     console.log(req.body);
     helper.uploadFollowup(req.body, knex)
       .then(result => {
@@ -171,7 +174,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.post('/sessionsv1', (req, resp) => {
+  app.post('/sessionsv1', syncAuth,(req, resp) => {
     console.log(req.body);
     helper.uploadSession(req.body, knex)
       .then(result => {
@@ -185,7 +188,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.put('/sessionsv1', (req, resp) => {
+  app.put('/sessionsv1', syncAuth,(req, resp) => {
     console.log(req.body);
     helper.updateSession(req.body, knex)
       .then(result => {
@@ -199,7 +202,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.post('/otpExitv1', (req, resp) => {
+  app.post('/otpExitv1', syncAuth, (req, resp) => {
     console.log(req.body);
     helper.uploadOtpExit(req.body, knex)
       .then(result => {
@@ -213,7 +216,7 @@ module.exports = function (app, knex) {
         });
       })
   })
-  app.put('/otpExitv1', (req, resp) => {
+  app.put('/otpExitv1', syncAuth,(req, resp) => {
     console.log(req.body);
     helper.updateOtpExit(req.body, knex)
       .then(result => {
@@ -227,6 +230,329 @@ module.exports = function (app, knex) {
         });
       })
   })
+  app.post('/stockIn', syncAuth, async (req, resp)=>{
+
+    var _stocks = req.body;
+    var response = {
+      id:[],
+      errors:[]
+    }
+    for (stock of _stocks){
+      stock.client_stockIn_id = stock.id;
+      delete stock.id;
+      try {
+        var x = await knex('tblStock').insert(stock).whereNot({client_stockIn_id : stock.client_stockIn_id,client_id:stock.client_id })
+        response.id.push(x)
+      } catch (error) {
+        response.errors.push(error)
+      }
+    }
+    if(response.errors.length > 0){
+      resp.json({error: 'Stocks are not uploaded'})
+    }else{
+      resp.json({success: 'Stocks are uploaded'})
+    }
+    
+  });
+  app.put('/stockIn', syncAuth, async(req, resp)=>{
+    var _stocks = req.body;
+    var response = {
+      id:[],
+      errors:[]
+    }
+    for (stock of _stocks){
+      stock.client_stockIn_id = stock.id;
+      delete stock.id;
+      try {
+        var x = await knex('tblStock').update(stock).where({client_stockIn_id : stock.client_stockIn_id,client_id:stock.client_id })
+        response.id.push(x)
+      } catch (error) {
+        response.errors.push(error)
+      }
+    }
+    if(response.errors.length > 0){
+      resp.json({error: 'Stocks are not updated'})
+    }else{
+      resp.json({success: 'Stocks are updated'})
+    }
+  });
+  // Managing Stock Out
+  app.route('/stockOut')
+    .all(syncAuth)
+    .put(async(req, resp)=>{
+      var _stocksOut = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (stockOut of _stocksOut){
+        stockOut.client_stock_out_id = stockOut.stock_out_id;
+        delete stockOut.stock_out_id;
+        
+        try {
+          var x = await knex('tblSiteStock').update(stockOut).where({client_stock_out_id :stockOut.client_stock_out_id,client_id:stockOut.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'StocksOut are not updated'})
+      }else{
+
+        resp.json({success: 'StocksOut are updated'})
+      }
+    })
+    .post(async(req, resp)=>{
+      console.log(req.body)
+
+      var _stocksOut = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (stockOut of _stocksOut){
+        stockOut.client_stock_out_id = stockOut.stock_out_id;
+        delete stockOut.stock_out_id;
+        try {
+          var x = await knex('tblSiteStock').insert(stockOut).whereNot({client_stock_out_id :stockOut.client_stock_out_id,client_id:stockOut.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+
+        resp.json({error: 'StocksOut are not uploaded'})
+      }else{
+        resp.json({success: 'StocksOut are uploaded'})
+      }
+
+    });
+    // Managing Stock Dist
+  app.route('/StockDist')
+    .all(syncAuth)
+    .put(async(req, resp)=>{
+      var _dists = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (dist of _dists){
+        dist.client_dist_id = dist.dist_id;
+        delete dist.dist_id;
+        
+        try {
+          var x = await knex('tblStokDistv2').update(dist).where({client_dist_id :dist.client_dist_id,client_id:dist.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'Distributions are not updated'})
+      }else{
+
+        resp.json({success: 'Distributions are updated'})
+      }
+
+    })
+    .post(async(req, resp)=>{
+      console.log(JSON.stringify(req.body))
+      
+
+      var _dists = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (dist of _dists){
+        dist.client_dist_id = dist.dist_id;
+        delete dist.dist_id;
+        
+        try {
+          var x = await knex('tblStokDistv2').insert(dist).whereNot({client_dist_id :dist.client_dist_id,client_id:dist.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'Distributions are not uploaded'})
+      }else{
+
+        resp.json({success: 'Distributions are uploaded'})
+      }
+
+  });
+  // Managing VillageList
+  app.route('/VillageList')
+    .all(syncAuth)
+    .put(async(req, resp)=>{
+      var _villages = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (village of _villages){
+        village.client_village_id = village.id;
+        delete village.id;
+        
+        try {
+          var x = await knex('tblVillages').update(village).where({client_village_id :village.client_village_id,client_id:village.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'Villages are not updated'})
+      }else{
+
+        resp.json({success: "Villages are updated"})
+      }
+
+    })
+    .post(async(req, resp)=>{
+      var _villages = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (village of _villages){
+        village.client_village_id = village.id;
+        delete village.id;
+        
+        try {
+          var x = await knex('tblVillages').insert(village).whereNot({client_village_id :village.client_village_id,client_id:village.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'Villages are not uploaded'})
+      }else{
+
+        resp.json({success: "Villages are uploaded"})
+      }
+  });
+
+  //
+  app.route('/CHWList')
+    .all(syncAuth)
+    .put(async(req, resp)=>{
+      var _LHWs = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (lhw of _LHWs){
+        lhw.client_lhw_id = lhw.id;
+        delete lhw.id;
+        
+        try {
+          var x = await knex('tblLhw').update(lhw).where({client_lhw_id :lhw.client_lhw_id,client_id:lhw.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'CHW Lists are not updated'})
+      }else{
+
+        resp.json({success: "CHW Lists are updated"})
+      }
+
+
+    })
+    .post(async(req, resp)=>{
+      var _LHWs = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (lhw of _LHWs){
+        lhw.client_lhw_id = lhw.id;
+        delete lhw.id;
+        
+        try {
+          var x = await knex('tblLhw').insert(lhw).whereNot({client_lhw_id :lhw.client_lhw_id,client_id:lhw.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'CHW Lists are not uploaded'})
+      }else{
+
+        resp.json({success: "CHW Lists are uploaded"})
+      }
+  });
+  app.route('/LHSList')
+    .all(syncAuth)
+    .put(async(req, resp)=>{
+      var _LHS = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (sup of _LHS){
+        sup.client_sup_id = sup.id;
+        delete sup.id;
+        
+        try {
+          var x = await knex('tblSupervisors').update(sup).where({client_sup_id :sup.client_sup_id,client_id:sup.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'LHS Lists are not updated'})
+      }else{
+
+        resp.json({success: "LHS Lists are updated"})
+      }
+
+    })
+    .post(async(req, resp)=>{
+      var _LHS = req.body;
+      var response = {
+        id:[],
+        errors:[]
+      }
+      for (sup of _LHS){
+        sup.client_sup_id = sup.id;
+        delete sup.id;
+        
+        try {
+          var x = await knex('tblSupervisors').insert(sup).whereNot({client_sup_id :sup.client_sup_id,client_id:sup.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+      }
+      if(response.errors.length > 0){
+        console.log(response.errors)
+        resp.json({error: 'LHS Lists are not uploaded'})
+      }else{
+
+        resp.json({success: "LHS Lists are uploaded"})
+      }
+  });
+
 
   app.post('/getAllScrSum', (req, res) => {
     var qry = req.body;

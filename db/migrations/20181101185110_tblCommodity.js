@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
       t.string('item_desc');
       t.string('item_unit');
       t.string('item_sub_unit');
+      t.string('prog_type');
   })
 };
 

@@ -21,18 +21,6 @@ exports.up = function (knex, Promise) {
     t.integer('new_scr_lactating');
     t.integer('reScreened_scr_pragnent');
     t.integer('reScreened_scr_lactating');
-    t.integer('first_ifa_tabs_rec_pragnent');
-    t.integer('first_ifa_tabs_rec_lactating');
-    t.integer('second_ifa_tabs_rec_pragnent');
-    t.integer('second_ifa_tabs_rec_lactating');
-    t.integer('third_ifa_tabs_rec_pragnent');
-    t.integer('third_ifa_tabs_rec_lactating');
-    t.integer('fourth_ifa_tabs_rec_pragnent');
-    t.integer('fourth_ifa_tabs_rec_lactating');
-    t.integer('fifth_ifa_tabs_rec_pragnent');
-    t.integer('fifth_ifa_tabs_rec_lactating');
-    t.integer('sixth_ifa_tabs_rec_pragnent');
-    t.integer('sixth_ifa_tabs_rec_lactating');
     t.integer('muac_gt_21_pragnent');
     t.integer('muac_gt_21_lactating');
     t.integer('muac_le_21_pragnent');
@@ -41,6 +29,13 @@ exports.up = function (knex, Promise) {
     t.timestamp('updated_at').defaultTo(knex.fn.now());
     t.boolean('isActive').defaultTo(true);
     t.integer('approved');
+    t.string('report_month',10);
+    t.integer('ifa_first_time_pragnent');
+    t.integer('ifa_first_time_lactating');
+    t.integer('followup_pragnent');
+    t.integer('followup_lactating');
+    t.integer('exits_pragnent');
+    t.integer('exit_lactating');
   })
 };
 

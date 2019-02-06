@@ -61,6 +61,14 @@ exports.up = function (knex, Promise) {
     t.integer('plus12_oedema_boys');
     t.integer('plus3_oedema_girls');
     t.integer('plus3_oedema_boys');
+    t.string('report_month',10);
+    t.integer('followedup_boys');
+    t.integer('followedup_girls');
+    t.integer('exits_boys');
+    t.integer('exits_girls');
+    t.string('other_specify');
+    t.integer('other_boys');
+    t.integer('other_girls');
     t.timestamp('created_at').defaultTo(knex.fn.now());
     t.timestamp('updated_at').defaultTo(knex.fn.now());
     t.boolean('isActive').defaultTo(true);

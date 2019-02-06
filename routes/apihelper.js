@@ -215,6 +215,9 @@ module.exports.uploadOtp = function (otpAdd, knex) {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete upload_status;
+      data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
+      data.quantity3 = (data.quantity3 == '') ? 0: data.quantity3;
+      data.other_com_qty = (data.other_com_qty == '') ? 0: data.other_com_qty;
       knex('tblOtpAdd')
         .where({
           client_id: data.client_id,
@@ -239,6 +242,7 @@ module.exports.uploadOtp = function (otpAdd, knex) {
           }
         })
         .catch(e => {
+          console.log(e)
           reject(e);
         })
     })
@@ -255,6 +259,9 @@ module.exports.updateOtp = function (otpUpd, knex) {
     otpUpd.forEach(data => {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
+      data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
+      data.quantity3 = (data.quantity3 == '') ? 0: data.quantity3;
+      data.other_com_qty = (data.other_com_qty == '') ? 0: data.other_com_qty;
       // resp.json(data);
       console.log(data);
       knex('tblOtpAdd')
@@ -292,6 +299,9 @@ module.exports.uploadOtpExit = function (otpExit, knex) {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.exit_id;
+      data.exit_quantity2 = (data.exit_quantity2 == '') ? 0: data.exit_quantity2;
+      data.exit_quantity3 = (data.exit_quantity3 == '') ? 0: data.exit_quantity3;
+      data.exit_other_com_qty = (data.exit_other_com_qty == '') ? 0: data.exit_other_com_qty;
       // resp.json(data);
       console.log(data);
       knex('tblOtpExit')
@@ -334,6 +344,9 @@ module.exports.updateOtpExit = function (otpExitUpd, knex) {
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.exit_id;
+      data.exit_quantity2 = (data.exit_quantity2 == '') ? 0: data.exit_quantity2;
+      data.exit_quantity3 = (data.exit_quantity3 == '') ? 0: data.exit_quantity3;
+      data.exit_other_com_qty = (data.exit_other_com_qty == '') ? 0: data.exit_other_com_qty;
       // resp.json(data);
       console.log(data);
       knex('tblOtpExit')
@@ -372,6 +385,9 @@ module.exports.uploadFollowup = function (followup, knex) {
       delete data.otp_id;
       delete data.followup_id;
       delete upload_status;
+      data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
+      data.quantity3 = (data.quantity3 == '') ? 0: data.quantity3;
+      data.other_com_qty = (data.other_com_qty == '') ? 0: data.other_com_qty;
       // resp.json(data);
       console.log(data);
       knex('tblOtpFollowup')
@@ -450,6 +466,8 @@ module.exports.uploadSession = function (sessions, knex) {
     sessions.forEach(data => {
       data.client_session_id = data.session_id;
       delete data.session_id;
+      data.CHS_id = (data.CHS_id == '')? 0 : data.CHS_id;
+      data.CHW_id = (data.CHW_id == '')? 0 : data.CHW_id;
       // resp.json(data);
 
       console.log(data);
@@ -489,6 +507,8 @@ module.exports.updateSession = function (sessionUpd, knex) {
     sessionUpd.forEach(data => {
       data.client_session_id = data.session_id;
       delete data.session_id;
+      data.CHS_id = (data.CHS_id == '')? 0 : data.CHS_id;
+      data.CHW_id = (data.CHW_id == '')? 0 : data.CHW_id;
       // resp.json(data);
       console.log(data);
       knex('tblSessions')
@@ -642,8 +662,7 @@ module.exports.updateNewScrPlw = function (newScrPlwUpd, knex) {
         .then(up_id => {
           if (up_id.length > 0) {
             console.log({
-              msg: `PLW screening with up_id: ${up_id} have been uploaded`,
-              ids: up_id
+              msg: `PLW screening with up_id: ${up_id} have been updated`,
             })
             newResponse.id.push(up_id);
             // resolve('Children screening uploaded')
@@ -664,3 +683,65 @@ module.exports.updateNewScrPlw = function (newScrPlwUpd, knex) {
     }
   })
 }
+
+module.exports.uploadStockIn =  async function( tblStock, knex){
+  var newStock = [];
+  for (stock of tblStock){
+    stock.client_stockIn_id = stock.id;
+    delete stock.id;
+    newStock.push(stock);
+  }
+  return new Promise((resolve, reject)=>{
+    var newResponse = {
+      id: [],
+      errors: []
+    }
+    for (stock of newStock){
+        knex('tblStok')
+          .insert(stock)
+          .whereNot({client_stockIn_id: stock.client_stockIn_id, clien_id:stock.client_id})
+          .then(result=>{
+            if(result.length > 0 ){
+             newResponse.id.push(result)
+            }
+          })
+          .catch(error => newResponse.errors.push(error));
+    }
+    if(newResponse.errors.length > 0){
+      reject('Stock upload failed')
+    }else{
+      resolve('Stocks are uploaded')
+    }
+  })
+}
+module.exports.updateStockIn =  async function( tblStock, knex){
+  var newStock = [];
+  for (stock of tblStock){
+    stock.client_stockIn_id = stock.id;
+    delete stock.id;
+    newStock.push(stock);
+  }
+  return new Promise((resolve, reject)=>{
+    var newResponse = {
+      id: [],
+      errors: []
+    }
+    for (stock of newStock){
+        knex('tblStok')
+          .update(stock)
+          .where({client_stockIn_id: stock.client_stockIn_id, clien_id:stock.client_id})
+          .then(result=>{
+            if(result.length > 0 ){
+             newResponse.id.push(result)
+            }
+          })
+          .catch(error => newResponse.errors.push(error));
+    }
+    if(newResponse.errors.length > 0){
+      reject('Stock Update failed')
+    }else{
+      resolve('Stocks are updated')
+    }
+  })
+}
+//Stocks

@@ -10,26 +10,25 @@ exports.up = function (knex, Promise) {
       t.string('reg_id');
       t.string('p_name');
       t.string('f_or_h_name');
-      t.string('cnic', 13);
+      t.string('cnic', 15);
       t.string('address');
-      t.string('cnt_number');
+      t.string('cnt_number',12);
       t.integer('age');
       t.string('gender');
       t.string('plw_type');
       t.string('ent_reason');
       t.string('ref_type');
       t.string('oedema');
-      t.integer('muac');
+      t.decimal('muac');
       t.boolean('diarrhoea');
       t.boolean('vomiting');
       t.boolean('cough');
       t.string('appetite');
       t.string('daily_stool');
-      t.integer('pass_urine');
-      t.integer('b_Feeding');
-      t.string('od_swol_time');
-      t.integer('weight');
-      t.integer('height');
+      t.boolean('pass_urine');
+      t.boolean('b_Feeding');
+      t.decimal('weight');
+      t.decimal('height');
       t.string('ration1');
       t.integer('quantity1');
       t.string('ration2');
@@ -40,10 +39,19 @@ exports.up = function (knex, Promise) {
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.timestamp('updated_at').defaultTo(knex.fn.now());
       t.integer('upload_status').defaultTo(1);
-      t.integer('client_exit_id');
       t.string('username');
       t.string('project_name');
       t.string('org_name');
+      t.boolean('is_deleted').notNullable().defaultTo(false);
+      t.string('other_com_name');
+      t.decimal('other_com_qty').defaultTo(0);
+      t.string('nsc_old_otp_id').defaultTo('0');
+      t.string('ref_type_other');
+      t.string('entry_reason_other');
+      t.integer('travel_time_minutes').notNullable().defaultTo(0);
+      t.string('is_mother_alive', 3).notNullable().defaultTo('Yes');
+      t.integer('tehsil_id');
+      t.string('nsc_otp_id');
     })
     .createTable('tblOtpExit', (t) => {
       t.increments('exit_id');
@@ -68,6 +76,9 @@ exports.up = function (knex, Promise) {
       t.integer('client_exit_id');
       t.integer('weight_gain');
       t.integer('days_in_program');
+      t.boolean('is_deleted').notNullable().defaultTo(false);
+      t.string('exit_other_com_name');
+      t.decimal('exit_other_com_qty');
     })
     .createTable('tblOtpFollowup', (t) => {
       t.increments('followup_id');
@@ -75,8 +86,8 @@ exports.up = function (knex, Promise) {
       t.integer('client_otp_id');
       t.string('client_id');
       t.unique(['client_followup_id', 'client_id']);
-      t.integer('weight');
-      t.integer('height');
+      t.decimal('weight');
+      t.decimal('height');
       t.string('ration1');
       t.integer('quantity1');
       t.string('ration2');
@@ -91,6 +102,9 @@ exports.up = function (knex, Promise) {
       t.timestamp('updated_at').defaultTo(knex.fn.now());
       t.integer('muac');
       t.integer('upload_status').defaultTo(1);
+      t.boolean('is_deleted').notNullable().defaultTo(false);
+      t.string('other_com_name', 20);
+      t.decimal('other_com_qty').defaultTo(0);
     })
 
 };

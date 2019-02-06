@@ -1,23 +1,24 @@
-exports.lConfig = {
-    server:'localhost',
-    user:'sa',
-    database:'acf',
-    password:'imran123'
-}
+require("dotenv").config();
+var connectionDetails = {
+    production:{
+      server: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_DATABASE
+    },
+    development: {
+      server: process.env.DEV_DB_HOST,
+      user: process.env.DEV_DB_USER,
+      password: process.env.DEV_DB_PASS,
+      database: process.env.DEV_DB_DATABASE
+    }
+  }
 
-exports.cloudConfig = {
-    server:'45.76.90.167',
-    user:'sa',
-    database:'acf',
-    password:'7Cd29FhP2YQU4FtP'
-}
+exports.lConfig = ( process.env.NODE_ENV === "production") ? connectionDetails.production : connectionDetails.development
 
-exports.imranConfig = {
-    server:'10.11.71.37',
-    user:'sa',
-    database:'ACF MIS',
-    password:'imran123'
-}
+exports.cloudConfig = ( process.env.NODE_ENV === "production") ? connectionDetails.production : connectionDetails.development
+
+exports.imranConfig = ( process.env.NODE_ENV === "production") ? connectionDetails.production : connectionDetails.development
 
 exports.port = (process.env.NODE_ENV === 'production') ? 8080 : 3000;
 

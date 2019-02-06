@@ -12,15 +12,8 @@ const config = {
   server: process.env.DB_HOST, // You can use 'localhost\\instance' to connect to named instance
   database: process.env.DB_DATABASE
 };
-var knex = require("knex")({
-  client: "mssql",
-  connection: {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE
-  }
-});
+const {knex} = require('./config/db');
+
 const express = require("express"),
   // mongoose = require('mongoose'),
   passport = require("passport"),
@@ -113,3 +106,5 @@ app.listen(process.env.PORT, err => {
   if (err) throw new Error(err);
   console.log("server started on port :" + process.env.PORT);
 });
+
+
