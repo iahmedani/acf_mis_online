@@ -73,6 +73,8 @@ exports.up = function (knex, Promise) {
     t.timestamp('updated_at').defaultTo(knex.fn.now());
     t.boolean('isActive').defaultTo(true);
     t.integer('approved');
+    t.date('upload_date');
+    t.integer('catchment_population')
   })
 };
 

@@ -1,6 +1,10 @@
 const async = require('async');
 const helper = require('./apihelper');
 const syncAuth = require('../config/auth/syncAuth');
+function date_diff_indays (d1, d2) {
+  var diff = Date.parse(d2) - Date.parse(d1);
+  return Math.floor(diff / 86400000);
+}
 
 function isEmpty(obj) {
   for (var key in obj) {
@@ -27,6 +31,15 @@ module.exports = function (app, knex) {
       }
     })
 
+  })
+// App Url updated 
+  app.post('/getConfig',syncAuth, async(req, resp)=>{
+    try {
+      var x = await knex('tblConfig');
+      resp.json(x)
+    } catch (error) {
+      resp.json(error)
+    }
   })
 
   app.post('/scrv1', (req, resp) => {
@@ -159,6 +172,36 @@ module.exports = function (app, knex) {
           error: e
         });
       })
+  })
+  app.put('/followupv1', syncAuth,  async (req, resp) => {
+    var _followUps = req.body;
+    var response = {
+      id:[],
+      errors:[]
+    }
+    for (followup of _followUps){
+      if(date_diff_indays(followup.upload_date, new Date().toJSON().split('T')[0]) < 6){
+        followup.client_followup_id = followup.id;
+        delete followup.id;
+        // adding new upload date
+        followup.upload_date = new Date().toJSON().split('T')[0];
+        
+        try {
+          var x = await knex('tblOtpFollowup').update(followup).where({client_followup_id :followup.client_followup_id,client_id:followup.client_id })
+          response.id.push(x)
+        } catch (error) {
+          response.errors.push(error)
+        }
+
+      }
+    }
+    if(response.errors.length > 0){
+      console.log(response.errors)
+      resp.json({error: 'Villages are not updated'})
+    }else{
+
+      resp.json({success: "Villages are updated"})
+    }
   })
   app.post('/stock_reqv1', (req, resp) => {
     console.log(req.body);
@@ -340,15 +383,20 @@ module.exports = function (app, knex) {
         id:[],
         errors:[]
       }
+      var _x = new Date().toJSON().split('T')[0]
       for (dist of _dists){
         dist.client_dist_id = dist.dist_id;
         delete dist.dist_id;
-        
-        try {
-          var x = await knex('tblStokDistv2').update(dist).where({client_dist_id :dist.client_dist_id,client_id:dist.client_id })
-          response.id.push(x)
-        } catch (error) {
-          response.errors.push(error)
+        if(date_diff_indays(dist.upload_date, _x) <6){
+
+          dist.upload_date = new Date().toJSON().split('T')[0]
+          
+          try {
+            var x = await knex('tblStokDistv2').update(dist).where({client_dist_id :dist.client_dist_id,client_id:dist.client_id })
+            response.id.push(x)
+          } catch (error) {
+            response.errors.push(error)
+          }
         }
       }
       if(response.errors.length > 0){
@@ -369,9 +417,12 @@ module.exports = function (app, knex) {
         id:[],
         errors:[]
       }
+      var _x = new Date().toJSON().split('T')[0]
+
       for (dist of _dists){
         dist.client_dist_id = dist.dist_id;
         delete dist.dist_id;
+        dist.update_date = _x;
         
         try {
           var x = await knex('tblStokDistv2').insert(dist).whereNot({client_dist_id :dist.client_dist_id,client_id:dist.client_id })

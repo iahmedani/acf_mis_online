@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   knex('tblAppBinding')
     .where({ mac: macAddr, regKey: appKey })
     .then(result => {
-      console.log(result)
+      // console.log(result)
       if (result.length > 0) {        
         next();
       } else {
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
       }
     })
     .catch(e => {
-      console.log(e)
+      // console.log(e)
       res.json({msg: false})
     })
 }

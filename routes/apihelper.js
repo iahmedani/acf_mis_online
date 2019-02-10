@@ -1,3 +1,9 @@
+function date_diff_indays (d1, d2) {
+  var diff = Date.parse(d2) - Date.parse(d1);
+  return Math.floor(diff / 86400000);
+}
+module.exports.date_diff_indays = date_diff_indays
+
 module.exports.uploadScreening = (scrArray, knex) => {
   function isEmpty(obj) {
     for (var key in obj) {
@@ -210,9 +216,11 @@ module.exports.updateScreening = function (scrUpd, knex) {
 module.exports.uploadOtp = function (otpAdd, knex) {
   // resp.json(data);
   // console.log(data);
+  var _x = new Date().toJSON().split('T')[0];
   return new Promise((resolve, reject) => {
     otpAdd.forEach(data => {
       data.client_otp_id = data.otp_id;
+      data.upload_date = _x
       delete data.otp_id;
       delete upload_status;
       data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
@@ -252,56 +260,63 @@ module.exports.uploadOtp = function (otpAdd, knex) {
 }
 
 module.exports.updateOtp = function (otpUpd, knex) {
+  var _x = new Date().toJSON().split('T')[0];
 
   // var data = req.body;
   return new Promise((resolve, reject) => {
 
     otpUpd.forEach(data => {
-      data.client_otp_id = data.otp_id;
-      delete data.otp_id;
-      data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
-      data.quantity3 = (data.quantity3 == '') ? 0: data.quantity3;
-      data.other_com_qty = (data.other_com_qty == '') ? 0: data.other_com_qty;
-      // resp.json(data);
-      console.log(data);
-      knex('tblOtpAdd')
-        .where({
-          client_id: data.client_id,
-          client_otp_id: data.client_otp_id
-        })
-        .update(data)
-        .then(result => {
-          if (result) {
-            console.log({
-              msg: 'OTP Admission Updated'
-            })
-          } else {
-            console.log({
-              msg: 'OTP Admission Not Updated'
-            })
-          }
-        })
+      if(date_diff_indays(data.upload_date, _x) < 6){
 
-        .catch(e => {
-          reject(e)
-        })
+        data.client_otp_id = data.otp_id;
+        delete data.otp_id;
+        data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
+        data.quantity3 = (data.quantity3 == '') ? 0: data.quantity3;
+        data.other_com_qty = (data.other_com_qty == '') ? 0: data.other_com_qty;
+        // resp.json(data);
+        console.log(data);
+        knex('tblOtpAdd')
+          .where({
+            client_id: data.client_id,
+            client_otp_id: data.client_otp_id
+          })
+          .update(data)
+          .then(result => {
+            if (result) {
+              console.log({
+                msg: 'OTP Admission Updated'
+              })
+            } else {
+              console.log({
+                msg: 'OTP Admission Not Updated'
+              })
+            }
+          })
+  
+          .catch(e => {
+            reject(e)
+          })
+      }
     })
     resolve('OTP Updated')
   })
 
 }
 
+    var _x = new Date().toJSON().split('T')[0];
 module.exports.uploadOtpExit = function (otpExit, knex) {
-
+  console.log(otpExit)
   return new Promise((resolve, reject) => {
-
+    var _x = new Date().toJSON().split('T')[0];
     otpExit.forEach(data => {
+
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.exit_id;
       data.exit_quantity2 = (data.exit_quantity2 == '') ? 0: data.exit_quantity2;
       data.exit_quantity3 = (data.exit_quantity3 == '') ? 0: data.exit_quantity3;
       data.exit_other_com_qty = (data.exit_other_com_qty == '') ? 0: data.exit_other_com_qty;
+      data.upload_date = _x;
       // resp.json(data);
       console.log(data);
       knex('tblOtpExit')
@@ -339,37 +354,40 @@ module.exports.uploadOtpExit = function (otpExit, knex) {
 
 module.exports.updateOtpExit = function (otpExitUpd, knex) {
   return new Promise((resolve, reject) => {
-
+    var _x = new Date().toJSON().split('T')[0];
     otpExitUpd.forEach(data => {
-      data.client_otp_id = data.otp_id;
-      delete data.otp_id;
-      delete data.exit_id;
-      data.exit_quantity2 = (data.exit_quantity2 == '') ? 0: data.exit_quantity2;
-      data.exit_quantity3 = (data.exit_quantity3 == '') ? 0: data.exit_quantity3;
-      data.exit_other_com_qty = (data.exit_other_com_qty == '') ? 0: data.exit_other_com_qty;
-      // resp.json(data);
-      console.log(data);
-      knex('tblOtpExit')
-        .where({
-          client_id: data.client_id,
-          client_otp_id: data.client_otp_id
-        })
-        .update(data)
-        .then(result => {
-          if (result) {
-            console.log({
-              msg: 'OTP Exit Updated'
-            })
-          } else {
-            console.log({
-              msg: 'OTP Exit Not Updated'
-            })
-          }
-        })
-        .catch(e => {
-          reject(e)
+      if(date_diff_indays(data.upload_date, _x) <6){
+        data.client_otp_id = data.otp_id;
+        delete data.otp_id;
+        delete data.exit_id;
+        data.exit_quantity2 = (data.exit_quantity2 == '') ? 0: data.exit_quantity2;
+        data.exit_quantity3 = (data.exit_quantity3 == '') ? 0: data.exit_quantity3;
+        data.exit_other_com_qty = (data.exit_other_com_qty == '') ? 0: data.exit_other_com_qty;
+        // resp.json(data);
+        console.log(data);
+        knex('tblOtpExit')
+          .where({
+            client_id: data.client_id,
+            client_otp_id: data.client_otp_id
+          })
+          .update(data)
+          .then(result => {
+            if (result) {
+              console.log({
+                msg: 'OTP Exit Updated'
+              })
+            } else {
+              console.log({
+                msg: 'OTP Exit Not Updated'
+              })
+            }
+          })
+          .catch(e => {
+            reject(e)
+  
+          })
 
-        })
+      }
     })
     resolve('OTP exit updated')
   })
@@ -378,13 +396,16 @@ module.exports.updateOtpExit = function (otpExitUpd, knex) {
 }
 
 module.exports.uploadFollowup = function (followup, knex) {
+  var _x = new Date().toJSON().split('T')[0]
   return new Promise((resolve, reject) => {
     followup.forEach(data => {
       data.client_followup_id = data.followup_id;
       data.client_otp_id = data.otp_id;
       delete data.otp_id;
       delete data.followup_id;
-      delete upload_status;
+      delete data.upload_status;
+      data.upload_date = _x;
+      
       data.quantity2 = (data.quantity2 == '') ? 0: data.quantity2;
       data.quantity3 = (data.quantity3 == '') ? 0: data.quantity3;
       data.other_com_qty = (data.other_com_qty == '') ? 0: data.other_com_qty;
@@ -421,6 +442,7 @@ module.exports.uploadFollowup = function (followup, knex) {
     resolve('Followups Added')
   })
 }
+
 module.exports.uploadStockRequest = function (followup, knex) {
   return new Promise((resolve, reject) => {
     followup.forEach(data => {
@@ -468,6 +490,7 @@ module.exports.uploadSession = function (sessions, knex) {
       delete data.session_id;
       data.CHS_id = (data.CHS_id == '')? 0 : data.CHS_id;
       data.CHW_id = (data.CHW_id == '')? 0 : data.CHW_id;
+      data.upload_date = new Date().toJSON().split('T')[0]
       // resp.json(data);
 
       console.log(data);
@@ -505,33 +528,36 @@ module.exports.uploadSession = function (sessions, knex) {
 module.exports.updateSession = function (sessionUpd, knex) {
   return new Promise((resolve, reject) => {
     sessionUpd.forEach(data => {
-      data.client_session_id = data.session_id;
-      delete data.session_id;
-      data.CHS_id = (data.CHS_id == '')? 0 : data.CHS_id;
-      data.CHW_id = (data.CHW_id == '')? 0 : data.CHW_id;
-      // resp.json(data);
-      console.log(data);
-      knex('tblSessions')
-        .where({
-          client_id: data.client_id,
-          client_session_id: data.client_session_id
-        })
-        .update(data)
-        .then(result => {
-          if (result) {
-            console.log({
-              msg: 'Session Updated'
-            })
-          } else {
-            console({
-              msg: 'Session Not Updated'
-            })
-          }
-        })
-
-        .catch(e => {
-          reject(e)
-        })
+      if(date_diff_indays(data.upload_date, new Date().toJSON().split('T')[0]) < 6){
+        data.upload_date = new Date().toJSON().split('T')[0]
+        data.client_session_id = data.session_id;
+        delete data.session_id;
+        data.CHS_id = (data.CHS_id == '')? 0 : data.CHS_id;
+        data.CHW_id = (data.CHW_id == '')? 0 : data.CHW_id;
+        // resp.json(data);
+        console.log(data);
+        knex('tblSessions')
+          .where({
+            client_id: data.client_id,
+            client_session_id: data.client_session_id
+          })
+          .update(data)
+          .then(result => {
+            if (result) {
+              console.log({
+                msg: 'Session Updated'
+              })
+            } else {
+              console({
+                msg: 'Session Not Updated'
+              })
+            }
+          })
+  
+          .catch(e => {
+            reject(e)
+          })
+      }
     })
     resolve('Sessions Updated')
   })
@@ -542,6 +568,7 @@ module.exports.uploadNewScrCh = function (newScrChArr, knex) {
   newScrChArr.forEach(el => {
     el.client_scr_ch_id = el.ch_scr_id;
     delete el.ch_scr_id;
+    el.upload_date = new Date().toJSON().split('T')[0]
     newArr.push(el);
   });
   console.log(newArr)
@@ -568,10 +595,14 @@ module.exports.uploadNewScrCh = function (newScrChArr, knex) {
 
 module.exports.updateNewScrCh = function (newScrChUpd, knex) {
   var newArr = [];
+  var _x = new Date().toJSON().split('T')[0]
   newScrChUpd.forEach(el => {
     el.client_scr_ch_id = el.ch_scr_id;
     delete el.ch_scr_id;
-    newArr.push(el);
+    if(date_diff_indays(el.upload_date, _x) < 6){
+      el.upload_date = _x;
+      newArr.push(el);
+    }
   });
   return new Promise((resolve, reject) => {
     var newResponse = {
@@ -616,6 +647,7 @@ module.exports.uploadNewScrPlw = function (newScrPlwArr, knex) {
   newScrPlwArr.forEach(el => {
     el.client_scr_plw_id = el.plw_scr_id;
     delete el.plw_scr_id;
+    el.upload_date = new Date().toJSON().split('T')[0]
     newArr.push(el);
   });
   console.log(newArr)
@@ -642,10 +674,15 @@ module.exports.uploadNewScrPlw = function (newScrPlwArr, knex) {
 
 module.exports.updateNewScrPlw = function (newScrPlwUpd, knex) {
   var newArr = [];
+  var _x = new Date().toJSON().split('T')[0]
+
   newScrPlwUpd.forEach(el => {
     el.client_scr_plw_id = el.plw_scr_id;
     delete el.plw_scr_id;
-    newArr.push(el);
+    if(date_diff_indays(el.upload_date, _x) < 6){
+      el.upload_date = _x;
+      newArr.push(el);
+    }
   });
   return new Promise((resolve, reject) => {
     var newResponse = {

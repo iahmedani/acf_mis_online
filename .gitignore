@@ -1,4 +1,7 @@
 node_modules
 .env
 sql
-docker
+docker/.system
+docker/data
+docker/log
+docker/secrets

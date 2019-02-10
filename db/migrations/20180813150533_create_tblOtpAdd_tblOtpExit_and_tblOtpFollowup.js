@@ -52,6 +52,8 @@ exports.up = function (knex, Promise) {
       t.string('is_mother_alive', 3).notNullable().defaultTo('Yes');
       t.integer('tehsil_id');
       t.string('nsc_otp_id');
+    t.date('upload_date')
+
     })
     .createTable('tblOtpExit', (t) => {
       t.increments('exit_id');
@@ -79,6 +81,8 @@ exports.up = function (knex, Promise) {
       t.boolean('is_deleted').notNullable().defaultTo(false);
       t.string('exit_other_com_name');
       t.decimal('exit_other_com_qty');
+    t.date('upload_date')
+
     })
     .createTable('tblOtpFollowup', (t) => {
       t.increments('followup_id');
@@ -105,6 +109,8 @@ exports.up = function (knex, Promise) {
       t.boolean('is_deleted').notNullable().defaultTo(false);
       t.string('other_com_name', 20);
       t.decimal('other_com_qty').defaultTo(0);
+    t.date('upload_date')
+
     })
 
 };

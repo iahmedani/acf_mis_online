@@ -14,6 +14,8 @@ exports.up = function(knex, Promise) {
       t.integer('upload_status')
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.timestamp('updated_at').defaultTo(knex.fn.now());
+    t.date('upload_date')
+
   })
     .createTable('tblLhw', t=>{
         t.increments()
@@ -29,6 +31,8 @@ exports.up = function(knex, Promise) {
         t.integer('upload_status')
         t.timestamp('created_at').defaultTo(knex.fn.now());
         t.timestamp('updated_at').defaultTo(knex.fn.now());
+    t.date('upload_date')
+
     })
     .createTable('tblVillages', t=>{
         t.increments()
@@ -43,6 +47,8 @@ exports.up = function(knex, Promise) {
         t.integer('upload_status')
         t.timestamp('created_at').defaultTo(knex.fn.now());
         t.timestamp('updated_at').defaultTo(knex.fn.now());
+    t.date('upload_date')
+
     })
 };
 

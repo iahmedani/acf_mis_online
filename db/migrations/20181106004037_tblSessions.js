@@ -24,6 +24,9 @@ exports.up = function(knex, Promise) {
 		t.integer('CHS_id')
 		t.integer('CHW_id')
 		t.boolean('is_deleted').defaultTo(false);
+		t.date('upload_date')
+		t.string('prog_type', 10)
+
 	})
 };
 
