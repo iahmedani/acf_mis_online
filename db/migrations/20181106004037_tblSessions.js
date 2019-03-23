@@ -29,6 +29,7 @@ exports.up = function(knex, Promise) {
 		t.integer('total_session').defaultTo(0)
 		t.integer('ind_session').defaultTo(0)
 		t.integer('grp_sessions').defaultTo(0)
+		t.integer('uc_id');
 
 	})
 };
