@@ -52,7 +52,8 @@ exports.up = function (knex, Promise) {
       t.string('is_mother_alive', 3).notNullable().defaultTo('Yes');
       t.integer('tehsil_id');
       t.string('nsc_otp_id');
-    t.date('upload_date')
+    t.date('upload_date');
+    t.string('hh_id', 20);
 
     })
     .createTable('tblOtpExit', (t) => {

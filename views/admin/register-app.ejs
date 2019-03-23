@@ -1,4 +1,5 @@
 <% layout('boilerplate') %>
+
 <style>
 th, td {
   padding: 3px 3px !important;
@@ -28,7 +29,7 @@ th, td {
           </form>
         </div>
         <div class="col s8">
-          <table class="responsive-table striped">
+          <table class="responsive-table striped" id="myTable">
             <tr class="blue darken-3" style="height:20px;">
               <th>Sr. #</th>
               <th>Name</th>
@@ -65,7 +66,10 @@ th, td {
         </div>
      </div>
 </main>
+
 <script>
+
+
   $('.myids').change(function(){
     if($(this).is(':checked')){
       var dataSend= {
@@ -111,6 +115,10 @@ th, td {
   }
   })
   
+//   $(document).ready( function () {
+   
+// } );
+// $('#myTable').DataTable();
  
 
 </script>

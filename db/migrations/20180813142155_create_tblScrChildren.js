@@ -74,7 +74,19 @@ exports.up = function (knex, Promise) {
     t.boolean('isActive').defaultTo(true);
     t.integer('approved');
     t.date('upload_date');
-    t.integer('catchment_population')
+    t.integer('catchment_population');
+    t.string('site_one', 50);
+    t.string('site_two', 50);
+    t.integer('reffer_otp_girls_s1').defaultTo(0);
+    t.integer('reffer_otp_girls_s2').defaultTo(0);
+    t.integer('reffer_otp_boys_s1').defaultTo(0);
+    t.integer('reffer_otp_boys_s2').defaultTo(0);
+    t.integer('reffer_tsfp_boys_s1').defaultTo(0);
+    t.integer('reffer_tsfp_boys_s2').defaultTo(0);
+    t.integer('reffer_tsfp_girls_s1').defaultTo(0);
+    t.integer('reffer_tsfp_girls_s2').defaultTo(0);
+    t.integer('uc_id');
+    t.integer('total_hh').defaultTo(0);
   })
 };
 

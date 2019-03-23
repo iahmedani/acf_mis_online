@@ -37,6 +37,7 @@ exports.up = function (knex, Promise) {
     t.integer('exits_pragnent');
     t.integer('exit_lactating');
     t.date('upload_date')
+    t.integer('uc_id');
 
   })
 };
