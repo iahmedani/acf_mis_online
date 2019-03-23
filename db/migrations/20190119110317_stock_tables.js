@@ -17,7 +17,7 @@ exports.up = function(knex, Promise) {
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.integer('upload_status').defaultTo(1);    
       t.integer('client_stockIn_id');
-    t.date('upload_date')
+    t.date('upload_date');
 
     })
     .createTable('tblSiteStock', t =>{
@@ -39,7 +39,9 @@ exports.up = function(knex, Promise) {
         t.date('created_at').defaultTo(knex.fn.now());
         t.date('updated_at').defaultTo(knex.fn.now());
         t.string('stockOutID')
-    t.date('upload_date')
+    t.date('upload_date');
+    t.integer('uc_id');
+
 
     })
     .createTable('tblStokDistv2', t=>{
