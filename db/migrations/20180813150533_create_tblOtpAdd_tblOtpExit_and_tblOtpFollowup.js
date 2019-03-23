@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
       t.integer('client_otp_id');
       t.string('client_id');
       t.unique(['client_otp_id', 'client_id']);
-      t.integer('site_id').references('id').inTable('tblGeoNutSite');
+      t.integer('site_id')
       t.string('site_village');
       t.date('reg_date');
       t.string('reg_id');
