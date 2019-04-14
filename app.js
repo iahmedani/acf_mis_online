@@ -33,6 +33,7 @@ var app = express();
 // middlewares
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
+app.use(express.bodyParser({limit: '100mb'}));
 app.use(express.urlencoded({ extended: false }));
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
