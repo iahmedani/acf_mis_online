@@ -87,6 +87,11 @@ exports.up = function (knex, Promise) {
     t.integer('reffer_tsfp_girls_s2').defaultTo(0);
     t.integer('uc_id');
     t.integer('total_hh').defaultTo(0);
+    t.integer('mnp_boys');
+    t.integer('mnp_girls');
+    t.integer('total_followup');
+    t.integer('total_exits');
+    
   })
 };
 

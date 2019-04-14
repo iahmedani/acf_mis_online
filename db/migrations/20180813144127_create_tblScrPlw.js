@@ -40,7 +40,8 @@ exports.up = function (knex, Promise) {
     t.integer('uc_id');
     t.integer('catchment_population');
     t.integer('total_hh');
-
+    t.integer('total_followup');
+    t.integer('total_exits');
   })
 };
 
