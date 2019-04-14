@@ -41,6 +41,7 @@ exports.up = function(knex, Promise) {
         t.string('stockOutID')
     t.date('upload_date');
     t.integer('uc_id');
+    t.date('update_date');
 
 
     })
@@ -72,6 +73,7 @@ exports.up = function(knex, Promise) {
         t.integer('province_id')
         t.integer('uc_id')
     t.date('upload_date')
+    t.date('update_date')
 
     })
   };
