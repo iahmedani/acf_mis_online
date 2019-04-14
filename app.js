@@ -25,18 +25,18 @@ const express = require("express"),
   // ejs = require('ejs'),
   flash = require("connect-flash"),
   expressValidator = require("express-validator"),
-  engine = require("ejs-mate")
-  bodyParser = require('body-parser');
+  engine = require("ejs-mate");
+  // bodyParser = require('body-parser');
 
 // express app
 var app = express();
 
 // middlewares
 app.use(express.static(__dirname + "/public"));
-app.use(express.json());
-app.use(bodyParser({limit: '100mb'}));
-app.use(bodyParser.urlencoded({ extended: false, limit:'100mb', 
-parameterLimit: 1000000 
+app.use(express.json({limit:'50mb'}));
+// app.use(bodyParser({limit: '10mb'}));
+app.use(express.urlencoded({ extended: false, limit:'50mb', 
+parameterLimit: 1000000
 }));
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
