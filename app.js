@@ -25,7 +25,8 @@ const express = require("express"),
   // ejs = require('ejs'),
   flash = require("connect-flash"),
   expressValidator = require("express-validator"),
-  engine = require("ejs-mate");
+  engine = require("ejs-mate")
+  bodyParser = require('body-parser');
 
 // express app
 var app = express();
@@ -33,8 +34,8 @@ var app = express();
 // middlewares
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
-app.use(express.bodyParser({limit: '100mb'}));
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser({limit: '50mb'}));
+app.use(express.urlencoded({ extended: false, limit:'50mb' }));
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
 app.use(cookieParser());

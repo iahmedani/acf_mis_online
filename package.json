@@ -23,6 +23,7 @@
     "async": "*",
     "aws-sdk": "*",
     "bcryptjs": "*",
+    "body-parser": "^1.18.3",
     "connect-flash": "*",
     "connect-mssql": "*",
     "cookie-parser": "*",
