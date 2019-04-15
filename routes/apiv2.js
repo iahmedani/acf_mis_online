@@ -30,9 +30,16 @@ module.exports = function (app, knex) {
   })
 
   app.post('/newScrChild2', syncAuth, async (req, resp)=>{
-
+    var newArr = [];
+    var newScrChArr = req.body
+  newScrChArr.forEach(el => {
+    el.client_scr_ch_id = el.ch_scr_id;
+    delete el.ch_scr_id;
+    el.upload_date = new Date().toJSON().split('T')[0]
+    newArr.push(el);
+    });
     try {
-      var uploadId = await knex('tblScrChildren').insert(data).whereNot({client_scr_ch_id: data.client_scr_ch_id, client_id:data.client_id}).returning('client_scr_ch_id')
+      var uploadId = await knex('tblScrChildren').insert(data).returning('client_scr_ch_id')
       resp.json(uploadId)
     } catch (error) {
       resp.json(error)
