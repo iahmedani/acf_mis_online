@@ -32,7 +32,7 @@ module.exports = function (app, knex) {
   app.post('/newScrBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
-      var x = await insertData('tblScrChildren', 'client_ch_scr_id', data, knex)
+      var x = await insertData('tblScrChildren', 'client_scr_ch_id', data, knex)
       resp.json(x)
     } catch (error) {
       console.log(error)
