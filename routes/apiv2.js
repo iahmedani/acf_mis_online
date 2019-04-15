@@ -15,6 +15,19 @@ function isEmpty(obj) {
 }
 module.exports = function (app, knex) {
 
+  app.post('/newScrChild1', syncAuth, async (req, resp)=>{
+
+    var data = req.body;
+    data.client_scr_ch_id = data.ch_scr_id;
+    delete data.ch_scr_id;
+
+    try {
+      var uploadId = await knex('tblScrChildren').insert(data).whereNot({client_scr_ch_id: data.client_scr_ch_id, client_id:data.client_id}).returning('client_scr_ch_id')
+      resp.json(uploadId)
+    } catch (error) {
+      resp.json(error)
+    }
+  })
 
   app.post('/clientUpdate', (req, resp) => {
     var scr = req.body;
