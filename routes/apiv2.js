@@ -27,6 +27,21 @@ async function insertData(table, return_id, data, knex){
   return _ids;
   
 }
+async function updateData(table, return_id, data, knex){
+  var _ids = [];
+  for (datum of data){
+    try {
+      var _id = await knex(table).update(datum).returning(return_id).where(return_id,'=',datum[return_id]).where({client_id:datum.client_id})
+      _ids.push(_id)
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
+  return _ids;
+  
+}
+
 module.exports = function (app, knex) {
 
   app.post('/newScrBulk', syncAuth, async(req, resp)=>{
@@ -38,7 +53,18 @@ module.exports = function (app, knex) {
       console.log(error)
       resp.json(error)
     }
-  })
+  });
+
+  app.post('/newScrPlwBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblScrPlw', 'client_scr_plw_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  });
 
   app.post('/newScrChild1', syncAuth, async (req, resp)=>{
 
