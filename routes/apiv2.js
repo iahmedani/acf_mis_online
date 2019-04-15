@@ -13,7 +13,32 @@ function isEmpty(obj) {
   }
   return true;
 }
+async function insertData(table, return_id, data, knex){
+  var _ids = [];
+  for (datum in data){
+    try {
+      var _id = await knex(table).insert(datum).returning(return_id)
+      _ids.push(_id)
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
+  return _ids;
+  
+}
 module.exports = function (app, knex) {
+
+  app.post('/newScrBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblScrChildren', 'client_ch_scr_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
 
   app.post('/newScrChild1', syncAuth, async (req, resp)=>{
 
