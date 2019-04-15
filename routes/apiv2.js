@@ -15,7 +15,7 @@ function isEmpty(obj) {
 }
 async function insertData(table, return_id, data, knex){
   var _ids = [];
-  for (datum in data){
+  for (datum of data){
     try {
       var _id = await knex(table).insert(datum).returning(return_id)
       _ids.push(_id)
