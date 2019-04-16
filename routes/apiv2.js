@@ -15,7 +15,9 @@ function isEmpty(obj) {
 }
 async function insertData(table, return_id, data, knex){
   var _ids = [];
+  var _upload_date = new Date().toJSON().split('T')[0];
   for (datum of data){
+    datum.upload_date = _upload_date;
     try {
       var _id = await knex(table).insert(datum).returning(return_id)
       _ids.push(_id[0])
@@ -29,10 +31,12 @@ async function insertData(table, return_id, data, knex){
 }
 async function updateData(table, return_id, data, knex){
   var _ids = [];
+  var _upload_date = new Date().toJSON().split('T')[0];
   for (datum of data){
+    datum.upload_date = _upload_date;
     try {
       var _id = await knex(table).update(datum).returning(return_id).where(return_id,'=',datum[return_id]).where({client_id:datum.client_id})
-      _ids.push(_id)
+      _ids.push(_id[0])
     } catch (error) {
       console.log(error)
       return error
@@ -44,6 +48,7 @@ async function updateData(table, return_id, data, knex){
 
 module.exports = function (app, knex) {
 
+  // Children Screening
   app.post('/newScrBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
@@ -54,7 +59,18 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   });
+  app.put('/newScrBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await updateData('tblScrChildren', 'client_scr_ch_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  });
 
+  // PLW Screening
   app.post('/newScrPlwBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
@@ -65,6 +81,238 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   });
+  app.put('/newScrPlwBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblScrPlw', 'client_scr_plw_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  });
+
+  // Followup
+  app.post('/otpFollowupBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblOtpFollowup', 'client_followup_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/otpFollowupBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblOtpFollowup', 'client_followup_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Stock Out
+  app.post('/stockOutBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblSiteStock', 'client_stock_out_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/stockOutBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblSiteStock', 'client_stock_out_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Stock Dist
+  app.post('/stockDistBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblSiteStock', 'client_dist_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/stockDistBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblSiteStock', 'client_dist_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Village List
+  app.post('/villagesBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblVillages', 'client_village_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/villagesBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblVillages', 'client_village_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  //Lhws
+  app.post('/lhwBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/lhwBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Supervisors
+  app.post('/supsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/supsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Admissions
+  app.post('/admisionsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblOtpAdd', 'client_otp_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/admisionsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblOtpAdd', 'client_otp_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Exits
+  app.post('/exitsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblOtpExit', 'client_exit_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/exitsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblOtpExit', 'client_exit_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Sessions
+  app.post('/sessionsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblSessions', 'client_session_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/sessionsBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblSessions', 'client_session_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+  // Stock In
+  app.post('/stockInBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblStock', 'client_stockIn_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+  app.put('/stockInBulk', syncAuth, async(req, resp)=>{
+    var data = req.body;
+    try {
+      var x = await insertData('tblStock', 'client_stockIn_id', data, knex)
+      resp.json(x)
+    } catch (error) {
+      console.log(error)
+      resp.json(error)
+    }
+  })
+
+
 
   app.post('/newScrChild1', syncAuth, async (req, resp)=>{
 
@@ -79,7 +327,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-
+  
   app.post('/newScrChild2', syncAuth, async (req, resp)=>{
     var newArr = [];
     var newScrChArr = req.body
