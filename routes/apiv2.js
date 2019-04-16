@@ -18,7 +18,7 @@ async function insertData(table, return_id, data, knex){
   for (datum of data){
     try {
       var _id = await knex(table).insert(datum).returning(return_id)
-      _ids.push(_id)
+      _ids.push(_id[0])
     } catch (error) {
       console.log(error)
       return error
