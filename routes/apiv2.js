@@ -206,7 +206,7 @@ module.exports = function (app, knex) {
   app.post('/supsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
-      var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
+      var x = await insertData('tblSupervisors', 'client_sup_id', data, knex)
       resp.json(x)
     } catch (error) {
       console.log(error)
@@ -216,7 +216,7 @@ module.exports = function (app, knex) {
   app.put('/supsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
-      var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
+      var x = await insertData('tblSupervisors', 'client_sup_id', data, knex)
       resp.json(x)
     } catch (error) {
       console.log(error)
