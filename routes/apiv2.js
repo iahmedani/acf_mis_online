@@ -227,6 +227,7 @@ module.exports = function (app, knex) {
   // Admissions
   app.post('/admisionsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
+    console.log(data)
     try {
       var x = await insertData('tblOtpAdd', 'client_otp_id', data, knex)
       resp.json(x)
