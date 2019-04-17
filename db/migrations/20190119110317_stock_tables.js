@@ -32,8 +32,8 @@ exports.up = function(knex, Promise) {
         t.integer('district_id')
         t.integer('tehsil_id');
         t.integer('site_id');
-        t.integer('CHW_id');
-        t.integer('CHS_id');
+        t.string('CHW_id');
+        t.string('CHS_id');
         t.boolean('is_deleted');
         t.integer('upload_status').defaultTo(1);    
         t.date('created_at').defaultTo(knex.fn.now());
@@ -59,8 +59,8 @@ exports.up = function(knex, Promise) {
         t.integer('district_id')
         t.integer('tehsil_id')
         t.integer('site_id')
-        t.integer('CHW_id')
-        t.integer('CHS_id')
+        t.string('CHW_id')
+        t.string('CHS_id')
         t.boolean('is_deleted')
         t.integer('upload_status').defaultTo(1);
         // t.timestamp('created_at').defaultTo(knex.fn.now());

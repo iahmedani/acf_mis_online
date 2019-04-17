@@ -44,7 +44,7 @@ exports.up = function (knex, Promise) {
       t.string('org_name');
       t.boolean('is_deleted').notNullable().defaultTo(false);
       t.string('other_com_name');
-      t.decimal('other_com_qty').defaultTo(0);
+      t.integer('other_com_qty');
       t.string('nsc_old_otp_id').defaultTo('0');
       t.string('ref_type_other');
       t.string('entry_reason_other');
