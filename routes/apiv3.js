@@ -392,5 +392,13 @@ module.exports = function (app, knex) {
     })
   });
 
-
+  // App Url updated 
+  app.post('/getConfig',syncAuth, async(req, resp)=>{
+    try {
+      var x = await knex('tblConfig');
+      resp.json(x)
+    } catch (error) {
+      resp.json(error)
+    }
+  })
 }
