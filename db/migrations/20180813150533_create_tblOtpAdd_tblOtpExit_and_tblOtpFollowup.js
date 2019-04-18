@@ -61,9 +61,9 @@ exports.up = function (knex, Promise) {
       t.integer('client_otp_id');
       t.string('client_id');
       t.unique(['client_otp_id', 'client_id']);
-      t.integer('exit_muac');
-      t.integer('exit_weight');
-      t.integer('exit_height');
+      t.float('exit_muac');
+      t.float('exit_weight');
+      t.float('exit_height');
       t.string('exit_ration1');
       t.integer('exit_quantity1');
       t.string('exit_ration2');
@@ -81,7 +81,7 @@ exports.up = function (knex, Promise) {
       t.integer('days_in_program');
       t.boolean('is_deleted').notNullable().defaultTo(false);
       t.string('exit_other_com_name');
-      t.decimal('exit_other_com_qty');
+      t.float('exit_other_com_qty');
     t.date('upload_date')
 
     })
@@ -109,7 +109,7 @@ exports.up = function (knex, Promise) {
       t.integer('upload_status').defaultTo(1);
       t.boolean('is_deleted').notNullable().defaultTo(false);
       t.string('other_com_name', 20);
-      t.decimal('other_com_qty').defaultTo(0);
+      t.integer('other_com_qty').defaultTo(0);
     t.date('upload_date')
 
     })

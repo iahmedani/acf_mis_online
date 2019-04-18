@@ -100,6 +100,11 @@ require("./routes/admin")(app);
 require("./routes/reporting")(app, knex);
 require("./routes/api")(app, knex);
 require("./routes/apiv2")(app, knex);
+
+
+// api3
+var api3 = require("./routes/apiv3")(app, knex);
+app.use("/api3",api3)
 // require("./warehouse/wh_common")(app, knex);
 
 app.use(function (req, res, next) {
