@@ -26,11 +26,12 @@ exports.up = function (knex, Promise) {
     })
     .createTable('tblGeoUC', (t) => {
       t.increments('id');
-      t.string('ucName').unique().notNullable();
+      t.string('ucName').notNullable();
       t.timestamp('created_at').defaultTo(knex.fn.now());
       t.timestamp('updated_at').defaultTo(knex.fn.now());
       t.boolean('isActive').defaultTo(true);
       t.integer('tehsil_id')
+      t.unique(['ucName', 'tehsil_id'])
       // .references('id').inTable('tblGeoTehsil')
     })
     .createTable('tblGeoNutSite', (t) => {
@@ -46,6 +47,7 @@ exports.up = function (knex, Promise) {
       t.integer('tehsil_id')
       // .references('id').inTable('tblGeoTehsil');
       t.integer('uc_id')
+      t.unique(['siteName','province_id','district_id','tehsil_id','uc_id'])
       // .references('id').inTable('tblGeoUC');
       t.boolean('OTP').notNullable().defaultTo(false);
       t.boolean('SFP').notNullable().defaultTo(false);

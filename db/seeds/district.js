@@ -7,28 +7,67 @@ exports.seed = function(knex, Promise) {
       return knex('tblGeoDistrict').insert(
         [
           {
-              "districtName": "Sanghar",
-              "province_id": 1,
-              "created_at": "2018-09-28T10:26:15.950Z",
-              "updated_at": "2018-09-28T10:26:15.950Z"
+            "districtName" : "Sanghar",
+            "created_at" : "2018-09-28T05:26:15Z",
+            "updated_at" : "2018-09-28T05:26:15Z",
+            "isActive" : 1,
+            "province_id" : 1
           },
           {
-              "districtName": "Peshawar",
-              "province_id": 2,
-              "created_at": "2018-09-28T10:26:20.777Z",
-              "updated_at": "2018-09-28T10:26:20.777Z"
+            "districtName" : "Peshawar",
+            "created_at" : "2018-09-28T05:26:20Z",
+            "updated_at" : "2018-09-28T05:26:20Z",
+            "isActive" : 1,
+            "province_id" : 2
           },
           {
-              "districtName": "Lahore",
-              "province_id": 3,
-              "created_at": "2018-09-28T10:26:25.620Z",
-              "updated_at": "2018-09-28T10:26:25.620Z"
+            "districtName" : "Lahore",
+            "created_at" : "2018-09-28T05:26:25Z",
+            "updated_at" : "2018-09-28T05:26:25Z",
+            "isActive" : 1,
+            "province_id" : 3
           },
           {
-              "districtName": "RawalPindi",
-              "province_id": 3,
-              "created_at": "2018-09-28T10:26:30.467Z",
-              "updated_at": "2018-09-28T10:26:30.467Z"
+            "districtName" : "RawalPindi",
+            "created_at" : "2018-09-28T05:26:30Z",
+            "updated_at" : "2018-09-28T05:26:30Z",
+            "isActive" : 1,
+            "province_id" : 3
+          },
+          {
+            "districtName" : "Matiari",
+            "created_at" : "2019-04-17T10:26:32Z",
+            "updated_at" : "2019-04-17T10:26:32Z",
+            "isActive" : 1,
+            "province_id" : 1
+          },
+          {
+            "districtName" : "Shikarpur",
+            "created_at" : "2019-04-17T10:26:32Z",
+            "updated_at" : "2019-04-17T10:26:32Z",
+            "isActive" : 1,
+            "province_id" : 1
+          },
+          {
+            "districtName" : "Sujawal",
+            "created_at" : "2019-04-17T10:26:32Z",
+            "updated_at" : "2019-04-17T10:26:32Z",
+            "isActive" : 1,
+            "province_id" : 1
+          },
+          {
+            "districtName" : "Tando Allah Yar",
+            "created_at" : "2019-04-17T10:26:32Z",
+            "updated_at" : "2019-04-17T10:26:32Z",
+            "isActive" : 1,
+            "province_id" : 1
+          },
+          {
+            "districtName" : "Thatta",
+            "created_at" : "2019-04-17T10:26:32Z",
+            "updated_at" : "2019-04-17T10:26:32Z",
+            "isActive" : 1,
+            "province_id" : 1
           }
       ]
       );

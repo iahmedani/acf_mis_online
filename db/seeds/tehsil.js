@@ -6,22 +6,151 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('tblGeoTehsil').insert([
         {
-            "tehsilName": "Tando Adam",
-            "district_id": 1,
-            "created_at": "2018-09-28T10:32:34.713Z",
-            "updated_at": "2018-09-28T10:32:34.713Z"
+          "tehsilName" : "Tando Adam",
+          "created_at" : "2018-09-28T05:32:34Z",
+          "updated_at" : "2018-09-28T05:32:34Z",
+          "isActive" : 1,
+          "district_id" : 1
         },
         {
-            "tehsilName": "Peshawar",
-            "district_id": 2,
-            "created_at": "2018-09-28T10:37:57.507Z",
-            "updated_at": "2018-09-28T10:37:57.507Z"
+          "tehsilName" : "Peshawar",
+          "created_at" : "2018-09-28T05:37:57Z",
+          "updated_at" : "2018-09-28T05:37:57Z",
+          "isActive" : 1,
+          "district_id" : 2
         },
         {
-            "tehsilName": "Lahore",
-            "district_id": 3,
-            "created_at": "2018-09-28T10:38:12.553Z",
-            "updated_at": "2018-09-28T10:38:12.553Z"
+          "tehsilName" : "Lahore",
+          "created_at" : "2018-09-28T05:38:12Z",
+          "updated_at" : "2018-09-28T05:38:12Z",
+          "isActive" : 1,
+          "district_id" : 3
+        },
+        {
+          "tehsilName" : "Chamber",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 8
+        },
+        {
+          "tehsilName" : "Garhi Yasin",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 6
+        },
+        {
+          "tehsilName" : "Ghora Bari",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 9
+        },
+        {
+          "tehsilName" : "Hala",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 5
+        },
+        {
+          "tehsilName" : "Jatti",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 7
+        },
+        {
+          "tehsilName" : "Jhando Mari",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 8
+        },
+        {
+          "tehsilName" : "Khanpur",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 6
+        },
+        {
+          "tehsilName" : "KT Bunder",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 9
+        },
+        {
+          "tehsilName" : "Lakhi",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 6
+        },
+        {
+          "tehsilName" : "Matiari",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 5
+        },
+        {
+          "tehsilName" : "Mirpur Bathoro",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 7
+        },
+        {
+          "tehsilName" : "Mirpursakaro",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 9
+        },
+        {
+          "tehsilName" : "Saeedabad",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 5
+        },
+        {
+          "tehsilName" : "Shah Bandur",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 7
+        },
+        {
+          "tehsilName" : "Shikarpur",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 6
+        },
+        {
+          "tehsilName" : "Sujawal",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 7
+        },
+        {
+          "tehsilName" : "Tando Allah Yar",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 8
+        },
+        {
+          "tehsilName" : "Thatta",
+          "created_at" : "2019-04-17T10:30:51Z",
+          "updated_at" : "2019-04-17T10:30:51Z",
+          "isActive" : 1,
+          "district_id" : 9
         }
     ]);
     });
