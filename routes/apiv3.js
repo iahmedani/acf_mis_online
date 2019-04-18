@@ -56,7 +56,7 @@ async function updateData(table, return_id, data, knex){
 module.exports = function (app, knex) {
 
   // Children Screening
-  app.post('/newScrBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/newScrBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblScrChildren', 'client_scr_ch_id', data, knex)
@@ -66,7 +66,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   });
-  app.put('/newScrBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/newScrBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await updateData('tblScrChildren', 'client_scr_ch_id', data, knex)
@@ -78,7 +78,7 @@ module.exports = function (app, knex) {
   });
 
   // PLW Screening
-  app.post('/newScrPlwBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/newScrPlwBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblScrPlw', 'client_scr_plw_id', data, knex)
@@ -88,7 +88,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   });
-  app.put('/newScrPlwBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/newScrPlwBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblScrPlw', 'client_scr_plw_id', data, knex)
@@ -100,7 +100,7 @@ module.exports = function (app, knex) {
   });
 
   // Followup
-  app.post('/otpFollowupBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/otpFollowupBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblOtpFollowup', 'client_followup_id', data, knex)
@@ -110,7 +110,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/otpFollowupBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/otpFollowupBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblOtpFollowup', 'client_followup_id', data, knex)
@@ -122,7 +122,7 @@ module.exports = function (app, knex) {
   })
 
   // Stock Out
-  app.post('/stockOutBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/stockOutBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblSiteStock', 'client_stock_out_id', data, knex)
@@ -132,7 +132,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/stockOutBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/stockOutBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblSiteStock', 'client_stock_out_id', data, knex)
@@ -144,7 +144,7 @@ module.exports = function (app, knex) {
   })
 
   // Stock Dist
-  app.post('/stockDistBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/stockDistBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblStokDistv2', 'client_dist_id', data, knex)
@@ -154,7 +154,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/stockDistBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/stockDistBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblStokDistv2', 'client_dist_id', data, knex)
@@ -166,7 +166,7 @@ module.exports = function (app, knex) {
   })
 
   // Village List
-  app.post('/villagesBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/villagesBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblVillages', 'client_village_id', data, knex)
@@ -176,7 +176,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/villagesBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/villagesBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblVillages', 'client_village_id', data, knex)
@@ -188,7 +188,7 @@ module.exports = function (app, knex) {
   })
 
   //Lhws
-  app.post('/lhwBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/lhwBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
@@ -198,7 +198,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/lhwBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/lhwBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblLhw', 'client_lhw_id', data, knex)
@@ -210,7 +210,7 @@ module.exports = function (app, knex) {
   })
 
   // Supervisors
-  app.post('/supsBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/supsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblSupervisors', 'client_sup_id', data, knex)
@@ -220,7 +220,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/supsBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/supsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblSupervisors', 'client_sup_id', data, knex)
@@ -232,7 +232,7 @@ module.exports = function (app, knex) {
   })
 
   // Admissions
-  app.post('/admisionsBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/admisionsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     console.log(data)
     try {
@@ -243,7 +243,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/admisionsBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/admisionsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblOtpAdd', 'client_otp_id', data, knex)
@@ -255,7 +255,7 @@ module.exports = function (app, knex) {
   })
 
   // Exits
-  app.post('/exitsBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/exitsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblOtpExit', 'client_exit_id', data, knex)
@@ -265,7 +265,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/exitsBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/exitsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblOtpExit', 'client_exit_id', data, knex)
@@ -277,7 +277,7 @@ module.exports = function (app, knex) {
   })
 
   // Sessions
-  app.post('/sessionsBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/sessionsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblSessions', 'client_session_id', data, knex)
@@ -287,7 +287,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/sessionsBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/sessionsBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblSessions', 'client_session_id', data, knex)
@@ -299,7 +299,7 @@ module.exports = function (app, knex) {
   })
 
   // Stock In
-  app.post('/stockInBulk', syncAuth, async(req, resp)=>{
+  app.post('/api3/stockInBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblStock', 'client_stockIn_id', data, knex)
@@ -309,7 +309,7 @@ module.exports = function (app, knex) {
       resp.json(error)
     }
   })
-  app.put('/stockInBulk', syncAuth, async(req, resp)=>{
+  app.put('/api3/stockInBulk', syncAuth, async(req, resp)=>{
     var data = req.body;
     try {
       var x = await insertData('tblStock', 'client_stockIn_id', data, knex)
