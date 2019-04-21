@@ -2,12 +2,23 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
 const syncAuth = require('../config/auth/syncAuth');
+passportConf = require('../config/auth/passport');
+
+const isAdminLoggedIn = function(req, res, next) {
+  if (req.isAuthenticated() && req.user.auth_type === 'super') {
+    next();
+  } else {
+    req.flash('info', 'Must be admin to access the page');
+    res.status(401).json({msg:'Un-authorized'})
+  }
+};
+
 
 router.get('/imranali', syncAuth, (req, res)=>{
   res.json({msg: true})
 })
 
-router.get('/', (req, res) => {
+router.get('/', isAdminLoggedIn, (req, res) => {
   knex('tblAppKey')
     .then(result => {
       res.render('admin/register-app', {result})      

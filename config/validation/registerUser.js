@@ -10,7 +10,7 @@ module.exports = function validateRegisterInput(data) {
   data.password = !isEmpty(data.password) ? data.password : '';
   data.password2 = !isEmpty(data.password2) ? data.password2 : '';
   data.organization = !isEmpty(data.organization) ? data.organization : '';
-  data.auth_type = !isEmpty(data.auth_type) ? data.auth_type : '';
+  // data.auth_type = !isEmpty(data.auth_type) ? data.auth_type : '';
 
   if (!Validator.isLength(data.first_name, { min: 2, max: 30 })) {
     errors.first_name = 'First Name must be between 2 and 30 characters';
@@ -54,9 +54,9 @@ module.exports = function validateRegisterInput(data) {
   if (Validator.isEmpty(data.organization)) {
     errors.organization = 'Organization field is required';
   }
-  if (Validator.isEmpty(data.auth_type)) {
-    errors.auth_type = 'First Name field is required';
-  }
+  // if (Validator.isEmpty(data.auth_type)) {
+  //   errors.auth_type = 'First Name field is required';
+  // }
   return {
     errors,
     isValid: isEmpty(errors)
