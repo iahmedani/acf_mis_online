@@ -2,7 +2,6 @@ version: '3'
 services:
   acf_db:
     image: microsoft/mssql-server-linux
-    volumes: ['./data:/var/opt/mssql']
     ports:
       - "1433:1433"
     environment:

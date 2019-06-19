@@ -325,7 +325,7 @@ module.exports = function (app, knex) {
 
   //Electron geo data push
   app.get('/api3/getProvince', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoProvince`).then((result) => {
+    knex.select().table(`tblGeoProvince`).where({isActive:1}).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -336,7 +336,7 @@ module.exports = function (app, knex) {
     })
   })
   app.get('/api3/getDistrict', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoDistrict`).then((result) => {
+    knex.select().table(`tblGeoDistrict`).where({isActive:1}).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -348,7 +348,7 @@ module.exports = function (app, knex) {
   })
   
   app.get('/api3/getTehsil', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoTehsil`).then((result) => {
+    knex.select().table(`tblGeoTehsil`).where({isActive:1}).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -360,7 +360,7 @@ module.exports = function (app, knex) {
   })
   
   app.get('/api3/getUC', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoUC`).then((result) => {
+    knex.select().table(`tblGeoUC`).where({isActive:1}).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -372,7 +372,7 @@ module.exports = function (app, knex) {
   });
   
   app.get('/api3/getSite', syncAuth,(req, resp) => {
-    knex.select().table(`tblGeoNutSite`).then((result) => {
+    knex.select().table(`tblGeoNutSite`).where({isActive:1}).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {

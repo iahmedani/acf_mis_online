@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
       name varchar(255) NOT NULL,
       organization varchar(255) NOT NULL,
       email varchar(244) NOT NULL,
+      project varchar(150) NOT NULL,
       [key] uniqueidentifier NOT NULL DEFAULT newid(),
       created_at date NOT NULL DEFAULT GETDATE(),
       status bit NOT NULL DEFAULT 0,

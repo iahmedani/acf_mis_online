@@ -1,13 +1,19 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('tblAppKey').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+      return knex('tblAppKey').insert([
+        {
+          "name" : "Super User",
+          "organization" : "User User",
+          "email" : "shumaila.db@gmail.com",
+          "key" : "1284A8A5-FA53-448E-BDFD-2B7F3C428728",
+          'project':'EU PINS',
+          "created_at" : "2019-04-17T19:00:00Z",
+          "status" : 1
+        }
       ]);
     });
 };

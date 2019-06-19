@@ -6,6 +6,8 @@ th, td {
   border: 0.5px solid rgba(0, 0, 0, 0.2) !important;
 }
 </style>
+
+
 <main>
    <div class="row">
      <div class="col s4 card ">
@@ -66,9 +68,11 @@ th, td {
         </div>
      </div>
 </main>
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 <script>
-
+  var data = <%- result %> 
 
   $('.myids').change(function(){
     if($(this).is(':checked')){
@@ -120,5 +124,7 @@ th, td {
 // } );
 // $('#myTable').DataTable();
  
-
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
 </script>

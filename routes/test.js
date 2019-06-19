@@ -9,7 +9,7 @@ const isAdminLoggedIn = function(req, res, next) {
     next();
   } else {
     req.flash('info', 'Must be admin to access the page');
-    req.redirect('/')
+    res.redirect('/')
     // res.status(401).json({msg:'Un-authorized'})
   }
 };
