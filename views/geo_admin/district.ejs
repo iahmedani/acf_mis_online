@@ -1,0 +1,42 @@
+<% layout('boilerplate') %>
+<% include ../partials/sidenav %>
+<style>
+.jsgrid-grid-header,
+.jsgrid-grid-body{
+  overflow: auto;
+}
+</style>
+
+<main role="main">
+  <div class="row">
+    <div class="col l3 m3 s3" id="tblDistrict">
+        
+    </div>
+
+  </div>
+</main>
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+ 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+<script>
+ var _data = <%- districts -%>;
+$("#tblDistrict").jsGrid({
+        width: "20%",
+        height: "400px", 
+        inserting: false,
+        editing: false,
+        sorting: true,
+        paging: true,
+
+ 
+        data: _data,
+ 
+        fields: [
+            { name: "district_id",title:'ID', type: "number", width: 10, },
+            { name: "provinceName", title:'Province',type: "text", width: 50 },
+            { name: "districtName", title:'District',type: "text", width: 50 }
+        ]
+    });
+
+</script>

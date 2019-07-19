@@ -1,0 +1,18 @@
+<% layout('boilerplate') %>
+<% include ../partials/sidenav %>
+<main>
+    <div class="col s8">
+        <table class="responsive-table striped" id="myTable">
+          <tr class="blue darken-3" style="height:20px;">
+            <th>Sr. #</th>
+            <th>Province Name</th>
+          </tr>
+          <% province.forEach(el=>{%>
+            <tr >
+              <td><%= el.id %></td>
+              <td><%= el.provinceName %></td>
+            </tr>
+          <%})%>
+        </table>
+      </div>
+</main>
