@@ -325,7 +325,7 @@ module.exports = function (app, knex) {
 
   //Electron geo data push
   app.get('/api3/getProvince', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoProvince`).where({isActive:1}).then((result) => {
+    knex.select().table(`tblGeoProvince`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -333,10 +333,12 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   })
   app.get('/api3/getDistrict', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoDistrict`).where({isActive:1}).then((result) => {
+    knex.select().table(`tblGeoDistrict`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -344,11 +346,13 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   })
   
   app.get('/api3/getTehsil', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoTehsil`).where({isActive:1}).then((result) => {
+    knex.select().table(`tblGeoTehsil`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -356,11 +360,13 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   })
   
   app.get('/api3/getUC', syncAuth, (req, resp) => {
-    knex.select().table(`tblGeoUC`).where({isActive:1}).then((result) => {
+    knex.select().table(`tblGeoUC`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -368,11 +374,13 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   });
   
   app.get('/api3/getSite', syncAuth,(req, resp) => {
-    knex.select().table(`tblGeoNutSite`).where({isActive:1}).then((result) => {
+    knex.select().table(`tblGeoNutSite`).then((result) => {
       if (result.length > 0) {
         resp.json(result);
       } else {
@@ -380,6 +388,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   });
 
@@ -392,6 +402,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   });
 

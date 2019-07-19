@@ -94,6 +94,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   })
   app.get('/getDistrict', syncAuth, (req, resp) => {
@@ -105,6 +107,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   })
   
@@ -117,6 +121,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   })
   
@@ -129,6 +135,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   });
   
@@ -141,6 +149,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   });
 
@@ -153,6 +163,8 @@ module.exports = function (app, knex) {
           'msg': 'No data to show'
         });
       }
+    }).catch(e=>{
+      console.log(e)
     })
   });
   // electron add screening data

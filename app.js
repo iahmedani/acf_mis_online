@@ -93,6 +93,10 @@ app.use("/new_admin", require("./routes/users"));
 app.use("/warehouse/common", require("./routes/warehouse/wh_common"));
 app.use("/regapp", require('./routes/test'));
 
+
+var geo_admin = require('./routes/geoAdmin')
+app.use('/geo_admin',geo_admin);
+
 // routes
 
 require("./routes/main")(app);

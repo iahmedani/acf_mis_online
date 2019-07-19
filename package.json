@@ -28,6 +28,7 @@
     "connect-mssql": "*",
     "cookie-parser": "*",
     "cors": "*",
+    "csurf": "^1.10.0",
     "dotenv": "*",
     "ejs": "*",
     "ejs-mate": "*",
