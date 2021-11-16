@@ -21,7 +21,7 @@
   "homepage": "https://github.com/iahmedani/acf_mis#readme",
   "dependencies": {
     "async": "^2.6.1",
-    "aws-sdk": "^2.247.1",
+    "aws-sdk": "^2.814.0",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "connect-mssql": "^1.5.0",
